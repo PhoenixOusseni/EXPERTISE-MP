@@ -7,8 +7,8 @@
     <title>@yield('title', 'Expertise Marchés Publics') — Formation en marchés publics</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ asset('build/assets/app-DIS-EYDy.css') }}">
+    <script src="{{ asset('build/assets/app-DxGHKhll.js') }}" defer></script>
 </head>
 <body class="h-full" x-data>
     <!-- Navigation -->
