@@ -27,6 +27,15 @@
                     @endforeach
                 </select>
             </div>
+            <div class="w-44">
+                <label class="form-label text-xs">Groupe</label>
+                <select name="audience" class="form-input">
+                    <option value="">Tous</option>
+                    @foreach (\App\Enums\LearnerProfile::cases() as $p)
+                    <option value="{{ $p->value }}" {{ request('audience') === $p->value ? 'selected' : '' }}>{{ $p->label() }}</option>
+                    @endforeach
+                </select>
+            </div>
             <div class="w-40">
                 <label class="form-label text-xs">Statut</label>
                 <select name="is_published" class="form-input">
@@ -50,6 +59,7 @@
             <thead><tr>
                 <th class="w-16">Miniature</th>
                 <th>Titre</th>
+                <th>Groupe</th>
                 <th>Catégorie</th>
                 <th>Type</th>
                 <th>Vues</th>
@@ -74,6 +84,15 @@
                     <td>
                         <p class="font-medium text-gray-900 text-sm max-w-xs truncate">{{ $video->title }}</p>
                         <p class="text-xs text-gray-400">{{ $video->slug }}</p>
+                    </td>
+                    <td>
+                        @if($video->audience)
+                            <span class="{{ $video->audience === \App\Enums\LearnerProfile::Entreprise ? 'badge-blue' : 'badge-yellow' }} text-xs">
+                                {{ $video->audience->label() }}
+                            </span>
+                        @else
+                            <span class="text-gray-400 text-xs">—</span>
+                        @endif
                     </td>
                     <td class="text-sm text-gray-600">{{ $video->category?->name ?? '—' }}</td>
                     <td>

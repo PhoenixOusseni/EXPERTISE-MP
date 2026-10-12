@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\LearnerProfile;
 use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,11 +27,17 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'first_name',
+        'last_name',
         'email',
         'phone',
         'password',
         'role',
+        'profile_type',
+        'intitule',
         'is_active',
+        'birth_date',
+        'gender',
         'avatar',
         'profession',
         'address',
@@ -60,7 +67,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'role' => UserRole::class,
+            'profile_type' => LearnerProfile::class,
             'is_active' => 'boolean',
+            'birth_date' => 'date',
         ];
     }
 
@@ -90,9 +99,23 @@ class User extends Authenticatable
             : null;
     }
 
+    public function fullName(): string
+    {
+        if ($this->first_name || $this->last_name) {
+            return trim($this->first_name . ' ' . $this->last_name);
+        }
+
+        return $this->name;
+    }
+
     public function isAdmin(): bool
     {
         return $this->role === UserRole::Admin;
+    }
+
+    public function profileTypeLabel(): string
+    {
+        return $this->profile_type?->label() ?? '';
     }
 
     public function hasActiveSubscription(bool $fresh = false): bool

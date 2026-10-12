@@ -134,7 +134,7 @@
                 </a>
             </div>
 
-            <div class="w-full max-w-[420px] mx-auto">
+            <div class="w-full @yield('card-max-width', 'max-w-[420px]') mx-auto">
                 @include('components.alert')
                 @yield('content')
 

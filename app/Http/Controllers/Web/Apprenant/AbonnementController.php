@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Apprenant;
 
+use App\Enums\LearnerProfile;
 use App\Enums\SubscriptionStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Plan;
@@ -14,8 +15,13 @@ class AbonnementController extends Controller
 {
     public function plans(Request $request): View
     {
-        $plans = Plan::active()->orderBy('price')->get();
         $user = $request->user();
+        $profile = $user->profile_type instanceof LearnerProfile ? $user->profile_type : null;
+
+        $plans = Plan::active()
+            ->when($profile, fn ($q) => $q->forProfile($profile))
+            ->orderBy('price')
+            ->get();
         $activeSubscription = $user->activeSubscription()->with('plan')->first();
         $pendingSubscription = $user->subscriptions()->where('status', SubscriptionStatus::Pending)->first();
 

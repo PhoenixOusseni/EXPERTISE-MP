@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Apprenant;
 
+use App\Enums\LearnerProfile;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Plan;
@@ -15,9 +16,16 @@ class CatalogueController extends Controller
 {
     public function index(Request $request): View
     {
-        $categories = Category::withCount(['videos' => fn ($q) => $q->published()])->orderBy('name')->get();
+        $user = $request->user();
+        $profile = $user->profile_type instanceof LearnerProfile ? $user->profile_type : null;
+
+        $categories = Category::withCount([
+            'videos' => fn ($q) => $q->published()
+                ->when($profile, fn ($q) => $q->forProfile($profile)),
+        ])->orderBy('name')->get();
 
         $videos = Video::published()
+            ->when($profile, fn ($q) => $q->forProfile($profile))
             ->with('category')
             ->when($request->filled('search'), fn ($q) => $q->where(fn ($q) => $q
                 ->where('title', 'like', '%'.$request->search.'%')
@@ -28,9 +36,10 @@ class CatalogueController extends Controller
             ->paginate(12);
 
         return view('apprenant.catalogue', [
-            'videos' => $videos,
-            'categories' => $categories,
+            'videos'      => $videos,
+            'categories'  => $categories,
             'totalVideos' => $videos->total(),
+            'profile'     => $profile,
         ]);
     }
 
@@ -64,8 +73,9 @@ class CatalogueController extends Controller
 
     public function welcome(): \Illuminate\View\View
     {
-        $plans = Plan::active()->orderBy('price')->get();
+        $entreprisePlans    = Plan::active()->forProfile(LearnerProfile::Entreprise)->orderBy('price')->get();
+        $administrationPlans = Plan::active()->forProfile(LearnerProfile::Administration)->orderBy('price')->get();
 
-        return view('welcome', compact('plans'));
+        return view('welcome', compact('entreprisePlans', 'administrationPlans'));
     }
 }

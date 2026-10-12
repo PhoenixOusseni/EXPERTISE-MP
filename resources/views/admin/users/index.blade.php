@@ -49,6 +49,9 @@
                             </div>
                             <div class="min-w-0">
                                 <p class="font-medium text-gray-900 text-sm truncate">{{ $user->name }}</p>
+                                @if($user->intitule)
+                                <p class="text-xs text-gray-600 font-medium truncate">{{ $user->intitule }}</p>
+                                @endif
                                 <p class="text-xs text-gray-400 truncate">{{ $user->email }}</p>
                             </div>
                         </div>

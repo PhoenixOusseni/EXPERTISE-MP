@@ -32,6 +32,9 @@
 
         <div class="flex-1 min-w-0">
             <h1 class="text-2xl font-bold text-gray-900 truncate">{{ $user->name }}</h1>
+            @if($user->intitule)
+            <p class="text-sm font-semibold text-gray-700 truncate">{{ $user->intitule }}</p>
+            @endif
             <p class="text-sm text-gray-500">{{ $user->email }}</p>
             @if($user->profession)
             <p class="text-sm text-indigo-600 font-medium mt-0.5">{{ $user->profession }}</p>
@@ -85,6 +88,14 @@
                         <label class="form-label">Téléphone</label>
                         <input type="tel" name="phone" value="{{ old('phone', $user->phone) }}"
                                class="form-input mt-1" placeholder="+226 xx xx xx xx">
+                    </div>
+
+                    <div>
+                        <label class="form-label">Intitulé du poste</label>
+                        <input type="text" name="intitule" value="{{ old('intitule', $user->intitule) }}"
+                               class="form-input mt-1 @error('intitule') border-red-300 @enderror"
+                               placeholder="Ex : Directeur des marchés publics">
+                        @error('intitule')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                     </div>
 
                     <div>

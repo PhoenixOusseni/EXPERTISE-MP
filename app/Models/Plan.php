@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\LearnerProfile;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -21,6 +22,7 @@ class Plan extends Model
         'duration_days',
         'features',
         'is_active',
+        'profile_type',
     ];
 
     protected function casts(): array
@@ -30,6 +32,7 @@ class Plan extends Model
             'duration_days' => 'integer',
             'features' => 'array',
             'is_active' => 'boolean',
+            'profile_type' => LearnerProfile::class,
         ];
     }
 
@@ -50,5 +53,10 @@ class Plan extends Model
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
+    }
+
+    public function scopeForProfile(Builder $query, LearnerProfile $profile): Builder
+    {
+        return $query->where('profile_type', $profile->value);
     }
 }

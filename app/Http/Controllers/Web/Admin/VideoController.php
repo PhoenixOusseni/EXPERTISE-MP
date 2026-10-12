@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
+use App\Enums\LearnerProfile;
 use App\Enums\VideoSourceType;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
@@ -18,6 +19,7 @@ class VideoController extends Controller
         $videos = Video::with(['category'])
             ->when($request->filled('search'), fn ($q) => $q->where('title', 'like', '%'.$request->search.'%'))
             ->when($request->filled('category_id'), fn ($q) => $q->where('category_id', $request->category_id))
+            ->when($request->filled('audience'), fn ($q) => $q->where('audience', $request->audience))
             ->when($request->filled('source_type'), fn ($q) => $q->where('source_type', $request->source_type))
             ->when($request->has('is_published') && $request->is_published !== '', fn ($q) => $q->where('is_published', $request->boolean('is_published')))
             ->latest()
@@ -91,6 +93,7 @@ class VideoController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'category_id' => ['nullable', 'integer', 'exists:categories,id'],
+            'audience' => ['required', \Illuminate\Validation\Rule::enum(LearnerProfile::class)],
             'source_type' => ['required', 'string'],
             'file' => [$fileRequired ? 'required' : 'nullable', 'file', 'mimetypes:video/*', 'max:'.config('formation.max_video_size_kb')],
             'external_url' => [$urlRequired ? 'required' : 'nullable', 'nullable', 'url', 'max:2048'],

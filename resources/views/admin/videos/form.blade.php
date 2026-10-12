@@ -42,6 +42,22 @@
                             class="form-input resize-none"
                             placeholder="Description de la vidéo...">{{ old('description', $video->description ?? '') }}</textarea>
                     </div>
+                    <div>
+                        <label class="form-label">Groupe cible <span class="text-red-500">*</span></label>
+                        <div class="grid grid-cols-2 gap-3 mt-1">
+                            @foreach (\App\Enums\LearnerProfile::cases() as $p)
+                                <label class="flex items-center gap-3 p-3 border rounded-lg cursor-pointer transition
+                                    {{ old('audience', $video->audience?->value ?? '') === $p->value ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200 hover:border-indigo-300' }}">
+                                    <input type="radio" name="audience" value="{{ $p->value }}"
+                                        {{ old('audience', $video->audience?->value ?? '') === $p->value ? 'checked' : '' }}
+                                        class="text-indigo-600 focus:ring-indigo-500" required>
+                                    <span class="text-sm font-medium text-gray-700">{{ $p->label() }}</span>
+                                </label>
+                            @endforeach
+                        </div>
+                        @error('audience')<p class="form-error">{{ $message }}</p>@enderror
+                    </div>
+
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="form-label">Catégorie</label>

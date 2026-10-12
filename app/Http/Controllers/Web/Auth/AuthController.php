@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Web\Auth;
 
+use App\Enums\LearnerProfile;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use App\Models\User;
 use Illuminate\View\View;
@@ -24,25 +26,33 @@ class AuthController extends Controller
 
     public function login(Request $request): RedirectResponse
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+        $request->validate([
+            'login'    => ['required', 'string'],
+            'password' => ['required', 'string'],
         ]);
 
-        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
-            return back()->withErrors(['email' => 'Identifiants incorrects.'])->withInput($request->only('email'));
+        $login = $request->input('login');
+
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+        $user  = User::where($field, $login)->first();
+
+        if (! $user || ! Hash::check($request->input('password'), $user->password)) {
+            return back()
+                ->withErrors(['login' => 'Identifiants incorrects.'])
+                ->withInput($request->only('login'));
         }
 
-        if (! Auth::user()->is_active) {
-            Auth::logout();
-
-            return back()->withErrors(['email' => 'Votre compte a été désactivé.'])->withInput($request->only('email'));
+        if (! $user->is_active) {
+            return back()
+                ->withErrors(['login' => 'Votre compte a été désactivé.'])
+                ->withInput($request->only('login'));
         }
 
+        Auth::login($user, $request->boolean('remember'));
         $request->session()->regenerate();
 
         return redirect()->intended(
-            Auth::user()->isAdmin() ? route('admin.dashboard') : route('catalogue')
+            $user->isAdmin() ? route('admin.dashboard') : route('catalogue')
         );
     }
 
@@ -58,20 +68,28 @@ class AuthController extends Controller
     public function register(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'phone' => ['nullable', 'string', 'max:30'],
-            'password' => ['required', 'confirmed', Password::defaults()],
+            'last_name'    => ['required', 'string', 'max:100'],
+            'first_name'   => ['required', 'string', 'max:100'],
+            'profile_type' => ['required', \Illuminate\Validation\Rule::enum(LearnerProfile::class)],
+            'intitule'     => ['nullable', 'string', 'max:200'],
+            'email'        => ['required', 'email', 'max:255', 'unique:users,email'],
+            'phone'        => ['required', 'string', 'max:30'],
+            'password'     => ['required', 'confirmed', Password::defaults()],
+            'country'      => ['required', 'string', 'max:100'],
+            'city'         => ['required', 'string', 'max:100'],
+            'birth_date'   => ['nullable', 'date', 'before:today'],
+            'gender'       => ['nullable', 'string', 'in:homme,femme,autre'],
         ]);
 
         $user = User::create([
             ...$data,
+            'name' => $data['first_name'] . ' ' . $data['last_name'],
             'role' => UserRole::Apprenant,
         ]);
 
         Auth::login($user);
 
-        return redirect()->route('catalogue')->with('success', 'Bienvenue ' . $user->name . ' ! Votre compte a été créé.');
+        return redirect()->route('catalogue')->with('success', 'Bienvenue ' . $user->first_name . ' ! Votre compte a été créé.');
     }
 
     public function logout(Request $request): RedirectResponse

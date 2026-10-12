@@ -11,11 +11,11 @@
             @csrf
 
             <div>
-                <label for="email" class="form-label">Adresse e-mail</label>
-                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
-                    class="form-input {{ $errors->has('email') ? 'border-red-400 focus:ring-red-400' : '' }}"
-                    placeholder="votre@email.com">
-                @error('email')
+                <label for="login" class="form-label">Email ou numéro de téléphone</label>
+                <input id="login" type="text" name="login" value="{{ old('login') }}" required autofocus
+                    class="form-input {{ $errors->has('login') ? 'border-red-400 focus:ring-red-400' : '' }}"
+                    placeholder="votre@email.com ou +226 xx xx xx xx">
+                @error('login')
                     <p class="form-error">{{ $message }}</p>
                 @enderror
             </div>

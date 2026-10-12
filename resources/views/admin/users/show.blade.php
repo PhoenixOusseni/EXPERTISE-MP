@@ -22,6 +22,9 @@
                 </div>
             @endif
             <h2 class="text-lg font-bold text-gray-900">{{ $user->name }}</h2>
+            @if($user->intitule)
+            <p class="text-xs font-semibold text-gray-700 mt-0.5">{{ $user->intitule }}</p>
+            @endif
             <p class="text-sm text-gray-500">{{ $user->email }}</p>
             @if($user->profession)
             <p class="text-xs text-indigo-600 font-medium mt-0.5">{{ $user->profession }}</p>

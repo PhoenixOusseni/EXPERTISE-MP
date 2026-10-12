@@ -675,77 +675,160 @@
 
     <!-- ═══════════════════ PRICING ═══════════════════ -->
     <section id="pricing" class="py-24 bg-[#F7F8FB]">
-        <div class="max-w-5xl mx-auto px-5 sm:px-8 lg:px-10">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+
+            {{-- Header --}}
             <div class="text-center mb-16">
                 <span class="section-badge mb-5 inline-flex">Nos formules d'abonnement</span>
                 <h2 class="text-3xl sm:text-4xl font-bold text-[#0B1E3E] mb-3">Tarifs simples & transparents</h2>
-                <p class="text-gray-500 max-w-md mx-auto">Aucun frais caché. Annulez à tout moment. Accès illimité au
-                    catalogue dès votre inscription.</p>
+                <p class="text-gray-500 max-w-md mx-auto">Aucun frais caché. Annulez à tout moment. Accès illimité au catalogue dès votre inscription.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
-                @foreach ($plans as $plan)
-                    @php $featured = $loop->iteration === 2; @endphp
-                    <div
-                        class="relative rounded-2xl overflow-hidden flex flex-col {{ $featured ? 'shadow-2xl scale-[1.03]' : 'shadow-md' }}">
-                        @if ($featured)
-                            <div class="text-center py-2.5 text-xs font-bold tracking-widest uppercase text-[#0B1E3E]"
-                                style="background: linear-gradient(90deg, #C9A84C, #F0C96B);">
-                                ★ Le plus populaire
-                            </div>
-                        @endif
-                        <div
-                            class="{{ $featured ? 'pricing-featured text-white' : 'bg-white' }} p-7 flex flex-col flex-1 {{ !$featured ? 'border border-gray-100' : '' }} {{ $featured ? 'rounded-b-2xl' : 'rounded-2xl' }}">
-                            <h3 class="text-lg font-bold {{ $featured ? 'text-white' : 'text-[#0B1E3E]' }} mb-1">
-                                {{ $plan->name }}</h3>
-                            @if ($plan->description)
-                                <p class="text-sm {{ $featured ? 'text-blue-300/70' : 'text-gray-500' }} mb-4">
-                                    {{ $plan->description }}</p>
-                            @endif
-                            <div class="mb-6">
-                                <div class="flex items-end gap-1.5">
-                                    <span
-                                        class="text-4xl font-bold {{ $featured ? 'text-white' : 'text-[#0B1E3E]' }}">{{ number_format($plan->price, 0, '.', ' ') }}</span>
-                                    <span
-                                        class="{{ $featured ? 'text-blue-300/60' : 'text-gray-400' }} text-sm pb-1">{{ $plan->currency }}</span>
-                                </div>
-                                <p class="{{ $featured ? 'text-blue-300/50' : 'text-gray-400' }} text-xs mt-1">pour
-                                    {{ $plan->duration_days }} jours d'accès complet</p>
-                            </div>
-                            @if ($plan->features)
-                                <ul class="space-y-2.5 flex-1 mb-7">
-                                    @foreach ($plan->features as $feature)
-                                        <li
-                                            class="flex items-start gap-2.5 text-sm {{ $featured ? 'text-blue-100/80' : 'text-gray-600' }}">
-                                            <svg class="w-4 h-4 flex-shrink-0 mt-0.5 {{ $featured ? 'text-[#C9A84C]' : 'text-emerald-500' }}"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="2.5" d="M5 13l4 4L19 7" />
-                                            </svg>
-                                            {{ $feature }}
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @endif
-                            @if ($featured)
-                                <a href="{{ route('register') }}"
-                                    class="btn-gold flex items-center justify-center gap-2 py-3 text-sm rounded-xl font-bold">
-                                    Choisir cette formule
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                            d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                </a>
-                            @else
-                                <a href="{{ route('register') }}"
-                                    class="flex items-center justify-center gap-2 py-3 text-sm rounded-xl font-semibold border-2 border-[#0B1E3E]/15 text-[#0B1E3E] hover:bg-[#0B1E3E] hover:text-white transition">
-                                    Choisir cette formule
-                                </a>
-                            @endif
-                        </div>
+            @php
+                $groups = [
+                    [
+                        'label'  => 'Contenu Entreprise',
+                        'icon'   => 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
+                        'color'  => '#1B4FD8',
+                        'plans'  => $entreprisePlans,
+                        'accent' => 'blue',
+                    ],
+                    [
+                        'label'  => 'Contenu Administration',
+                        'icon'   => 'M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z',
+                        'color'  => '#059669',
+                        'plans'  => $administrationPlans,
+                        'accent' => 'emerald',
+                    ],
+                ];
+            @endphp
+
+            @foreach ($groups as $group)
+            <div class="mb-16 last:mb-0">
+
+                {{-- Group header --}}
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                         style="background: {{ $group['color'] }}18;">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                             style="color: {{ $group['color'] }};">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                  d="{{ $group['icon'] }}"/>
+                        </svg>
                     </div>
-                @endforeach
+                    <div>
+                        <h3 class="text-xl font-bold text-[#0B1E3E]">{{ $group['label'] }}</h3>
+                        <div class="w-12 h-0.5 mt-1 rounded-full" style="background: {{ $group['color'] }};"></div>
+                    </div>
+                </div>
+
+                {{-- 4-column grid --}}
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    @foreach ($group['plans'] as $plan)
+                        @php
+                            $savings  = [null, '−10%', '−12%', '−15%'];
+                            $popular  = $loop->index === 1; // Trimestriel
+                            $best     = $loop->index === 3; // Annuel
+                            $discount = $savings[$loop->index] ?? null;
+                        @endphp
+                        <div class="relative rounded-2xl flex flex-col overflow-hidden
+                                    {{ $popular ? 'shadow-xl ring-2' : 'shadow-md border border-gray-100' }}"
+                             style="{{ $popular ? 'ring-color:' . $group['color'] . '; box-shadow: 0 8px 32px ' . $group['color'] . '22;' : '' }}">
+
+                            {{-- Ribbon --}}
+                            @if ($popular)
+                                <div class="text-center py-2 text-[11px] font-bold tracking-widest uppercase text-white"
+                                     style="background: {{ $group['color'] }};">
+                                    ★ Populaire
+                                </div>
+                            @elseif ($best)
+                                <div class="text-center py-2 text-[11px] font-bold tracking-widest uppercase text-[#0B1E3E]"
+                                     style="background: linear-gradient(90deg, #C9A84C, #F0C96B);">
+                                    ✦ Meilleure offre
+                                </div>
+                            @endif
+
+                            {{-- Card body --}}
+                            <div class="{{ $popular ? 'text-white' : 'bg-white' }} p-6 flex flex-col flex-1
+                                         {{ $popular ? 'rounded-b-2xl' : 'rounded-2xl' }}"
+                                 style="{{ $popular ? 'background: linear-gradient(150deg, ' . $group['color'] . ' 0%, ' . $group['color'] . 'cc 100%);' : '' }}">
+
+                                {{-- Duration badge --}}
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-xs font-semibold px-2.5 py-1 rounded-full
+                                                 {{ $popular ? 'bg-white/20 text-white' : 'text-gray-500' }}"
+                                          style="{{ !$popular ? 'background:' . $group['color'] . '12; color:' . $group['color'] . ';' : '' }}">
+                                        {{ $plan->duration_days }} jours
+                                    </span>
+                                    @if ($discount)
+                                        <span class="text-xs font-bold px-2 py-0.5 rounded-full
+                                                     {{ $popular ? 'bg-white/20 text-white' : 'bg-emerald-100 text-emerald-700' }}">
+                                            {{ $discount }}
+                                        </span>
+                                    @endif
+                                </div>
+
+                                {{-- Plan name --}}
+                                <h4 class="text-base font-bold mb-3 {{ $popular ? 'text-white' : 'text-[#0B1E3E]' }}">
+                                    {{ $plan->name }}
+                                </h4>
+
+                                {{-- Price --}}
+                                <div class="mb-5">
+                                    <div class="flex items-end gap-1">
+                                        <span class="text-3xl font-black {{ $popular ? 'text-white' : 'text-[#0B1E3E]' }}">
+                                            {{ number_format($plan->price, 0, '.', ' ') }}
+                                        </span>
+                                        <span class="text-sm pb-1 {{ $popular ? 'text-white/70' : 'text-gray-400' }}">
+                                            {{ $plan->currency }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {{-- Features --}}
+                                @if ($plan->features)
+                                    <ul class="space-y-2 flex-1 mb-6">
+                                        @foreach ($plan->features as $feature)
+                                            <li class="flex items-start gap-2 text-xs
+                                                        {{ $popular ? 'text-white/85' : 'text-gray-600' }}">
+                                                <svg class="w-3.5 h-3.5 flex-shrink-0 mt-0.5
+                                                            {{ $popular ? 'text-white' : 'text-emerald-500' }}"
+                                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                                </svg>
+                                                {{ $feature }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+
+                                {{-- CTA --}}
+                                @if ($popular)
+                                    <a href="{{ route('register') }}"
+                                       class="btn-gold flex items-center justify-center gap-1.5 py-2.5 text-sm rounded-xl font-bold">
+                                        Choisir
+                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                        </svg>
+                                    </a>
+                                @else
+                                    <a href="{{ route('register') }}"
+                                       class="flex items-center justify-center gap-1.5 py-2.5 text-sm rounded-xl font-semibold border-2 transition hover:text-white"
+                                       style="border-color: {{ $group['color'] }}33; color: {{ $group['color'] }};
+                                              --tw-hover-bg: {{ $group['color'] }};"
+                                       onmouseover="this.style.background='{{ $group['color'] }}'; this.style.color='white';"
+                                       onmouseout="this.style.background=''; this.style.color='{{ $group['color'] }}';">
+                                        Choisir
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
+            @endforeach
+
         </div>
     </section>
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\LearnerProfile;
 use App\Enums\VideoSourceType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,7 @@ class Video extends Model
 
     protected $fillable = [
         'category_id',
+        'audience',
         'user_id',
         'title',
         'slug',
@@ -43,6 +45,7 @@ class Video extends Model
     {
         return [
             'source_type' => VideoSourceType::class,
+            'audience' => LearnerProfile::class,
             'duration' => 'integer',
             'is_free' => 'boolean',
             'is_published' => 'boolean',
@@ -90,6 +93,11 @@ class Video extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function scopeForProfile(Builder $query, LearnerProfile $profile): Builder
+    {
+        return $query->where('audience', $profile->value);
     }
 
     public function scopePublished(Builder $query): Builder
