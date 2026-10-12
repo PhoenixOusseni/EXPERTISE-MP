@@ -181,7 +181,7 @@
         <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 flex items-center justify-between h-[70px]">
             <!-- Brand -->
             <a href="{{ route('welcome') }}" class="flex items-center gap-3 group">
-                <img src="/images/logo_expert.png" alt="Expertise Marchés Publics"
+                <img src="{{ asset('images/logo_expert.png') }}" alt="Expertise Marchés Publics"
                     class="h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
                 <div class="hidden lg:block leading-none">
                     <span class="block text-[15px] font-bold text-[#0B1E3E]">Expertise Marchés Publics</span>
@@ -310,7 +310,7 @@
                             style="background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.12);">
                             <!-- Card header -->
                             <div class="px-7 pt-7 pb-5 border-b border-white/10">
-                                <img src="/images/logo_expert.png" alt="Logo"
+                                <img src="{{ asset('images/logo_expert.png') }}" alt="Logo"
                                     class="h-16 w-auto object-contain mb-4">
                                 <h3 class="text-white font-bold text-lg leading-snug">Expertise Marchés Publics</h3>
                                 <p class="text-blue-300/70 text-sm mt-1 italic">"Les marchés publics, au service du
@@ -557,7 +557,7 @@
                     <div class="rounded-2xl overflow-hidden shadow-xl"
                         style="background: linear-gradient(150deg, #0B1E3E 0%, #142B54 100%); border: 1px solid rgba(201,168,76,0.2);">
                         <div class="p-8">
-                            <img src="/images/logo_expert.png" alt="Logo"
+                            <img src="{{ asset('images/logo_expert.png') }}" alt="Logo"
                                 class="h-16 w-auto object-contain mb-6">
                             <blockquote
                                 class="text-white/90 text-lg font-light leading-relaxed italic mb-6 border-l-2 border-[#C9A84C] pl-4">
@@ -759,7 +759,7 @@
         </div>
 
         <div class="relative max-w-3xl mx-auto px-5 sm:px-8 text-center">
-            <img src="/images/logo_expert.png" alt="Logo" class="h-16 w-auto object-contain mx-auto mb-8">
+            <img src="{{ asset('images/logo_expert.png') }}" alt="Logo" class="h-16 w-auto object-contain mx-auto mb-8">
             <div class="hero-line mx-auto mb-6"></div>
             <h2 class="text-4xl sm:text-5xl font-bold text-white mb-5 leading-tight">
                 Prêt à maîtriser les<br><span class="text-gold">Marchés Publics ?</span>
@@ -804,7 +804,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
                 <!-- Brand column -->
                 <div class="md:col-span-2">
-                    <img src="/images/logo_expert.png" alt="Logo" class="h-12 w-auto object-contain mb-4"
+                    <img src="{{ asset('images/logo_expert.png') }}" alt="Logo" class="h-12 w-auto object-contain mb-4"
                         style="filter: brightness(0) invert(1); opacity: 0.85;">
                     <p class="text-sm leading-relaxed mb-5 max-w-xs">Formation, Consultation, Accompagnement et
                         Coaching pour l'excellence en marchés publics en Afrique de l'Ouest.</p>

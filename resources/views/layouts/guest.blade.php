@@ -66,7 +66,7 @@
             <!-- Logo -->
             <div class="relative z-10">
                 <a href="{{ route('welcome') }}" class="inline-flex items-center gap-3 group">
-                    <img src="/images/logo_expert.png" alt="Expertise Marchés Publics"
+                    <img src="{{ asset('images/logo_expert.png') }}" alt="Expertise Marchés Publics"
                         class="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
                 </a>
             </div>
@@ -128,7 +128,7 @@
             <!-- Mobile logo -->
             <div class="lg:hidden flex justify-center mb-8">
                 <a href="{{ route('welcome') }}" class="flex flex-col items-center gap-2">
-                    <img src="/images/logo_expert.png" alt="Expertise Marchés Publics"
+                    <img src="{{ asset('images/logo_expert.png') }}" alt="Expertise Marchés Publics"
                         class="h-14 w-auto object-contain">
                     <span class="text-sm font-bold text-[#0B1E3E]">Expertise Marchés Publics</span>
                 </a>
