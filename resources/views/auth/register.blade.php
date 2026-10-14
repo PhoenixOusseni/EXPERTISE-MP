@@ -65,6 +65,22 @@
                     </div>
                 </div>
 
+                {{-- Continent --}}
+                @php
+                    $continents = ['Afrique','Amérique du Nord','Amérique du Sud','Asie','Europe','Océanie'];
+                @endphp
+                <div>
+                    <label for="continent" class="form-label">Continent <span class="text-red-500">*</span></label>
+                    <select id="continent" name="continent" required
+                        class="form-input {{ $errors->has('continent') ? 'border-red-400' : '' }}">
+                        <option value="">— Sélectionner un continent —</option>
+                        @foreach($continents as $c)
+                            <option value="{{ $c }}" {{ old('continent') === $c ? 'selected' : '' }}>{{ $c }}</option>
+                        @endforeach
+                    </select>
+                    @error('continent')<p class="form-error">{{ $message }}</p>@enderror
+                </div>
+
                 {{-- Pays / Ville --}}
                 <div class="grid grid-cols-2 gap-4">
                     <div>
@@ -132,7 +148,6 @@
                             <option value="">— Sélectionner —</option>
                             <option value="homme" {{ old('gender') === 'homme' ? 'selected' : '' }}>Homme</option>
                             <option value="femme" {{ old('gender') === 'femme' ? 'selected' : '' }}>Femme</option>
-                            <option value="autre" {{ old('gender') === 'autre' ? 'selected' : '' }}>Autre</option>
                         </select>
                         @error('gender')
                             <p class="form-error">{{ $message }}</p>

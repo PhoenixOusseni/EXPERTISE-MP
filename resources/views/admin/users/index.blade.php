@@ -10,6 +10,7 @@
         'subscribed'   => request('subscribed'),
         'gender'       => request('gender'),
         'profile_type' => request('profile_type'),
+        'continent'    => request('continent'),
         'country'      => request('country'),
         'city'         => request('city'),
     ])->filter()->count();
@@ -80,8 +81,8 @@
                 </div>
             </div>
 
-            {{-- Ligne 2 : Genre + Profil + Pays + Ville --}}
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+            {{-- Ligne 2 : Genre + Profil + Continent + Pays + Ville --}}
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-4">
                 <div>
                     <label class="form-label text-xs">Genre</label>
                     <select name="gender" class="form-input">
@@ -99,6 +100,15 @@
                             <option value="{{ $pt->value }}" {{ request('profile_type') === $pt->value ? 'selected' : '' }}>
                                 {{ $pt->label() }}
                             </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label text-xs">Continent</label>
+                    <select name="continent" class="form-input">
+                        <option value="">Tous</option>
+                        @foreach($continents as $ct)
+                            <option value="{{ $ct }}" {{ request('continent') === $ct ? 'selected' : '' }}>{{ $ct }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -152,6 +162,12 @@
                 </span>
             @endif
         @endforeach
+        @if(request('continent'))
+            <span class="inline-flex items-center gap-1.5 text-xs bg-blue-50 text-blue-700 border border-blue-200 rounded-full px-2.5 py-1 font-medium">
+                🌐 {{ request('continent') }}
+                <a href="{{ route('admin.users.index', array_merge(request()->except('continent', 'page'))) }}" class="hover:text-blue-900">×</a>
+            </span>
+        @endif
         @if(request('country'))
             <span class="inline-flex items-center gap-1.5 text-xs bg-blue-50 text-blue-700 border border-blue-200 rounded-full px-2.5 py-1 font-medium">
                 🌍 {{ request('country') }}

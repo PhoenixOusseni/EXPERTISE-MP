@@ -33,6 +33,7 @@ class ProfileController extends Controller
             'address'    => ['nullable', 'string', 'max:255'],
             'city'       => ['nullable', 'string', 'max:100'],
             'country'    => ['nullable', 'string', 'max:100'],
+            'continent'  => ['nullable', 'string', 'max:60'],
             'bio'        => ['nullable', 'string', 'max:500'],
         ]);
 

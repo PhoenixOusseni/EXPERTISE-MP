@@ -23,7 +23,7 @@
         </div>
 
         {{-- Plan recap card --}}
-        <div class="bg-gradient-to-br from-[#0B1E3E] to-[#1B4FD8] rounded-2xl p-6 text-white mb-6 relative overflow-hidden">
+        <div class="bg-gradient-to-br from-[#1e3a6e] to-[#4d8de8] rounded-2xl p-6 text-white mb-6 relative overflow-hidden">
             <div class="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-white/5"></div>
             <div class="absolute -bottom-6 -left-6 w-24 h-24 rounded-full bg-white/5"></div>
             <div class="relative">

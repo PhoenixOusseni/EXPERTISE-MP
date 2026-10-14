@@ -47,9 +47,19 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         @foreach($plans as $plan)
-        <div class="bg-white rounded-2xl border-2 {{ $loop->iteration === 2 ? 'border-indigo-600 shadow-xl shadow-indigo-100' : 'border-gray-200' }} p-7 relative flex flex-col">
-            @if($loop->iteration === 2)
+        @php
+            $planBadges = ['Starter', 'Populaire', 'Pro', 'Premium'];
+            $planBadge  = $planBadges[$loop->index] ?? '';
+            $isPopular  = $loop->iteration === 2;
+        @endphp
+        <div class="bg-white rounded-2xl border-2 {{ $isPopular ? 'border-indigo-600 shadow-xl shadow-indigo-100' : 'border-gray-200' }} p-7 relative flex flex-col">
+            @if($isPopular)
                 <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-indigo-600 text-white text-xs font-bold px-4 py-1 rounded-full">Le plus populaire</div>
+            @endif
+            @if($planBadge)
+                <div class="text-[10px] font-bold uppercase tracking-widest mb-1 {{ $isPopular ? 'text-indigo-500' : 'text-gray-400' }}">
+                    {{ $planBadge }}
+                </div>
             @endif
             <h3 class="text-lg font-bold text-gray-900">{{ $plan->name }}</h3>
             @if($plan->description)

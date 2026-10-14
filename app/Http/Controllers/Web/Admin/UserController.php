@@ -25,15 +25,17 @@ class UserController extends Controller
             })
             ->when($request->filled('gender'),       fn ($q) => $q->where('gender',       $request->gender))
             ->when($request->filled('profile_type'), fn ($q) => $q->where('profile_type', $request->profile_type))
+            ->when($request->filled('continent'),    fn ($q) => $q->where('continent',    $request->continent))
             ->when($request->filled('country'),      fn ($q) => $q->where('country',      $request->country))
             ->when($request->filled('city'),         fn ($q) => $q->where('city',         $request->city))
             ->latest()
             ->paginate(20);
 
-        $countries = User::apprenants()->whereNotNull('country')->distinct()->orderBy('country')->pluck('country');
-        $cities    = User::apprenants()->whereNotNull('city')->distinct()->orderBy('city')->pluck('city');
+        $continents = User::apprenants()->whereNotNull('continent')->distinct()->orderBy('continent')->pluck('continent');
+        $countries  = User::apprenants()->whereNotNull('country')->distinct()->orderBy('country')->pluck('country');
+        $cities     = User::apprenants()->whereNotNull('city')->distinct()->orderBy('city')->pluck('city');
 
-        return view('admin.users.index', compact('users', 'countries', 'cities'));
+        return view('admin.users.index', compact('users', 'continents', 'countries', 'cities'));
     }
 
     public function show(User $user): View

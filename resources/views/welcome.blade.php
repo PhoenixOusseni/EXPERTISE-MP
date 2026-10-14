@@ -16,8 +16,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.17.4/dist/cdn.min.js"></script>
     <style>
         :root {
-            --navy: #1a3a6e;
-            --navy-mid: #235090;
+            --navy: #2b5aad;
+            --navy-mid: #3672c8;
             --blue: #1B4FD8;
             --blue-light: #3B82F6;
             --gold: #C9A84C;
@@ -45,7 +45,7 @@
 
         /* Hero */
         .hero-section {
-            background: linear-gradient(160deg, #112244 0%, #1a3a6e 45%, #1e4a8a 100%);
+            background: linear-gradient(160deg, #1e3a6e 0%, #2b5aad 45%, #3672c8 100%);
             min-height: 100vh;
         }
 
@@ -109,12 +109,12 @@
 
         /* Pricing card */
         .pricing-featured {
-            background: linear-gradient(150deg, #1a3a6e 0%, #235090 100%);
+            background: linear-gradient(150deg, #2b5aad 0%, #3672c8 100%);
         }
 
         /* CTA section */
         .cta-bg {
-            background: linear-gradient(160deg, #112244 0%, #1a3a6e 50%, #1e4a8a 100%);
+            background: linear-gradient(160deg, #1e3a6e 0%, #2b5aad 50%, #3672c8 100%);
         }
 
         /* Animated underline */
@@ -169,7 +169,7 @@
 
         /* Footer */
         .footer-bg {
-            background: #0d1e3a;
+            background: #1a3060;
         }
     </style>
 </head>
@@ -256,7 +256,7 @@
                     </h1>
 
                     <p class="text-base sm:text-lg text-blue-200/80 max-w-lg mb-10 leading-relaxed font-light">
-                        Formation professionnelle, consultation, accompagnement et coaching pour maîtriser les marchés
+                        Formation, consultation, accompagnement et coaching pour maîtriser les marchés
                         publics et réussir vos appels d'offres.
                     </p>
 
@@ -451,7 +451,7 @@
                             'num' => '01',
                             'title' => 'Formation',
                             'desc' =>
-                                'Programmes spécialisés en réglementation, procédures et meilleures pratiques des marchés publics.',
+                                'Programmes spécialisés en règlementation, procédures, meilleures pratiques et dans tous les aspects des marchés publics.',
                             'icon' =>
                                 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
                             'color' => '#1B4FD8',
@@ -460,7 +460,7 @@
                             'num' => '02',
                             'title' => 'Consultation',
                             'desc' =>
-                                "Analyse et évaluation experte de vos dossiers pour maximiser vos chances d'attribution de marchés.",
+                                "Analyse et évaluation experte de vos dossiers pour optimiser vos chances de succès dans les marchés publics.",
                             'icon' =>
                                 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
                             'color' => '#7C3AED',
@@ -469,7 +469,7 @@
                             'num' => '03',
                             'title' => 'Appui-conseil / conseils',
                             'desc' =>
-                                "Conseils stratégiques personnalisés pour optimiser votre positionnement dans les appels d'offres.",
+                                "Conseils stratégiques personnalisés pour optimiser votre positionnement dans les marchés publics.",
                             'icon' =>
                                 'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z',
                             'color' => '#0891B2',
@@ -478,7 +478,7 @@
                             'num' => '04',
                             'title' => 'Accompagnement',
                             'desc' =>
-                                "Suivi personnalisé tout au long de votre processus de soumission, de la préparation à l'attribution.",
+                                "Suivi personnalisé tout au long de votre processus de soumission, de la préparation à l'attribution, ainsi que l'exécution et le règlement.",
                             'icon' =>
                                 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z',
                             'color' => '#059669',
@@ -487,7 +487,7 @@
                             'num' => '05',
                             'title' => 'Stratégies',
                             'desc' =>
-                                'Élaboration de stratégies gagnantes pour vous différencier dans les marchés publics compétitifs.',
+                                'Élaboration de stratégies gagnantes pour vous différencier dans les marchés publics.',
                             'icon' =>
                                 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
                             'color' => '#C9A84C',
@@ -496,7 +496,7 @@
                             'num' => '06',
                             'title' => 'Montage de dossiers de soumission / offres',
                             'desc' =>
-                                'Préparation et structuration rigoureuse de vos dossiers de soumission, conformes aux exigences légales.',
+                                'Préparation et structuration rigoureuse de vos dossiers de soumission, conformes aux exigences requises.',
                             'icon' =>
                                 'M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
                             'color' => '#DC2626',
@@ -505,7 +505,7 @@
                             'num' => '07',
                             'title' => 'Coaching',
                             'desc' =>
-                                'Sessions de coaching individuel et collectif pour développer une expertise opérationnelle en marchés publics.',
+                                'Sessions de coaching individuel et collectif pour développer une expertise stratégique et opérationnelle en marchés publics.',
                             'icon' =>
                                 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z',
                             'color' => '#EA580C',
@@ -631,10 +631,10 @@
                         Une approche pratique,<br><span class="animated-underline text-[#1B4FD8]">orientée
                             résultats</span>
                     </h2>
-                    <p class="text-gray-500 mb-8 leading-relaxed">Nos experts vous transmettent une connaissance
-                        terrain approfondie des marchés publics en Afrique de l'Ouest.</p>
+                    <p class="text-gray-500 mb-8 leading-relaxed">Vous transmettre une connaissance
+                        théorique et pratique approfondie des marchés publics.</p>
                     <div class="space-y-4">
-                        @foreach ([['Expertise reconnue', "Des formateurs avec plus de 10 ans d'expérience dans les marchés publics.", '#1B4FD8'], ['Formation', 'Programmes adaptés à votre niveau et à vos objectifs professionnels spécifiques.', '#059669'], ['Contenu vidéo HD', 'Formations disponibles 24h/24 depuis tous vos appareils, en HD.', '#7C3AED'], ['Résultats prouvés', 'Nos apprenants remportent des marchés grâce à notre accompagnement concret.', '#C9A84C']] as [$title, $desc, $color])
+                        @foreach ([['Expertise reconnue', "Formateur avec plus de 15 ans d'expérience dans les marchés publics.", '#1B4FD8'], ['Formation', 'Programmes adaptés à votre niveau et à vos objectifs professionnels spécifiques.', '#059669'], ['Contenu vidéo HD', 'Formations disponibles 24h/24 depuis tous vos appareils, en HD.', '#7C3AED'], ['Résultats prouvés', 'Nos apprenants remportent des marchés grâce à notre accompagnement concret.', '#C9A84C']] as [$title, $desc, $color])
                             <div
                                 class="flex items-start gap-4 bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                                 <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
@@ -669,7 +669,7 @@
                 <div class="hidden md:block absolute top-[52px] left-[calc(16.67%+28px)] right-[calc(16.67%+28px)] h-px"
                     style="background: linear-gradient(90deg, #C9A84C, #1B4FD8, #C9A84C);"></div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                    @foreach ([['01', 'Créez votre compte', 'Inscrivez-vous en quelques secondes et accédez à votre espace formation personnalisé.', '#1B4FD8'], ['02', 'Choisissez votre formule', 'Sélectionnez l\'abonnement mensuel, trimestriel ou annuel adapté à vos besoins.', '#C9A84C'], ['03', 'Apprenez & Progressez', 'Accédez au catalogue complet, progressez à votre rythme et maîtrisez les marchés publics.', '#059669']] as [$n, $t, $d, $c])
+                    @foreach ([['01', 'Créez votre compte', 'Inscrivez-vous en quelques secondes et accédez à votre espace formation personnalisé.', '#1B4FD8'], ['02', 'Choisissez votre formule', 'Sélectionnez l\'abonnement mensuel, trimestriel, semestriel ou annuel adapté à vos besoins.', '#C9A84C'], ['03', 'Apprenez, Progressez & Réussissez', 'Accédez au catalogue complet, progressez à votre rythme et maîtrisez les marchés publics.', '#059669']] as [$n, $t, $d, $c])
                         <div class="text-center relative">
                             <div class="w-[56px] h-[56px] rounded-xl mx-auto mb-6 flex items-center justify-center step-ring text-white font-black text-lg relative z-10 shadow-lg"
                                 style="background: {{ $c }}; box-shadow: 0 8px 24px {{ $c }}40;">
@@ -751,6 +751,8 @@
                             $popular  = $loop->index === 1; // Trimestriel
                             $best     = $loop->index === 3; // Annuel
                             $discount = $savings[$loop->index] ?? null;
+                            $badges   = ['Starter', 'Populaire', 'Pro', 'Premium'];
+                            $badge    = $badges[$loop->index] ?? '';
                         @endphp
                         <div class="relative rounded-2xl flex flex-col overflow-hidden
                                     {{ $popular ? 'shadow-xl ring-2' : 'shadow-md border border-gray-100' }}"
@@ -803,7 +805,14 @@
                                         @endif
                                     </div>
 
-                                    {{-- Plan name --}}
+                                    {{-- Badge + Plan name --}}
+                                    @if($badge)
+                                        <div class="text-[10px] font-bold uppercase tracking-widest mb-1 relative z-10
+                                                    {{ $popular ? 'text-white/60' : '' }}"
+                                             style="{{ !$popular ? 'color:' . $group['color'] . ';' : '' }}">
+                                            {{ $badge }}
+                                        </div>
+                                    @endif
                                     <h4 class="text-base font-bold relative z-10 {{ $popular ? 'text-white' : 'text-[#0B1E3E]' }}">
                                         {{ $plan->name }}
                                     </h4>
@@ -893,7 +902,7 @@
                 Prêt à maîtriser les<br><span class="text-gold">Marchés Publics ?</span>
             </h2>
             <p class="text-blue-200/70 text-lg mb-10 max-w-xl mx-auto leading-relaxed font-light">
-                Rejoignez notre communauté d'experts et accédez à toutes nos formations pour développer votre
+                Rejoignez notre communauté d'experts et accédez à toutes nos formations et offres pour cultiver votre
                 excellence.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
@@ -935,7 +944,7 @@
                     <img src="{{ asset('images/logo_expert.png') }}" alt="Logo" class="h-12 w-auto object-contain mb-4"
                         style="filter: brightness(0) invert(1); opacity: 0.85;">
                     <p class="text-sm leading-relaxed mb-5 max-w-xs">Formation, Consultation, Accompagnement et
-                        Coaching pour l'excellence en marchés publics en Afrique de l'Ouest.</p>
+                        Coaching pour l'excellence en marchés publics.</p>
                     <div class="flex items-center gap-3">
                         <a href="https://www.facebook.com/share/r/1EGPr5o3gz/" target="_blank" rel="noopener"
                             class="w-9 h-9 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center hover:bg-[#1877F2]/20 hover:border-[#1877F2]/40 transition" title="Facebook">

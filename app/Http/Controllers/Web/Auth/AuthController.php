@@ -78,6 +78,7 @@ class AuthController extends Controller
             'email'        => ['required', 'email', 'max:255', 'unique:users,email'],
             'phone'        => ['required', 'string', 'max:30'],
             'password'     => ['required', 'confirmed', Password::defaults()],
+            'continent'    => ['required', 'string', 'max:60'],
             'country'      => ['required', 'string', 'max:100'],
             'city'         => ['required', 'string', 'max:100'],
             'birth_date'   => ['nullable', 'date', 'before:today'],

@@ -13,7 +13,7 @@
 
         {{-- Header --}}
         <tr>
-          <td style="background:#1B4FD8;border-radius:12px 12px 0 0;padding:28px 36px;text-align:center;">
+          <td style="background:linear-gradient(135deg,#2b5aad 0%,#3e7ed6 100%);border-radius:12px 12px 0 0;padding:28px 36px;text-align:center;">
             <span style="color:#ffffff;font-size:22px;font-weight:700;letter-spacing:1px;">E-FORMATION</span>
             <p style="color:rgba(255,255,255,0.75);font-size:12px;margin:4px 0 0;">Expertise Marchés Publics</p>
           </td>

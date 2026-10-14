@@ -8,7 +8,7 @@
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6">
 
         {{-- Bandeau de couleur --}}
-        <div class="h-24 bg-gradient-to-r from-[#1a3a6e] to-[#1B4FD8] relative">
+        <div class="h-24 bg-gradient-to-r from-[#2b5aad] to-[#4d8de8] relative">
             @if($user->profile_type)
                 <span class="absolute bottom-3 right-4 text-xs font-bold px-3 py-1 rounded-full bg-white/20 text-white backdrop-blur-sm">
                     {{ $user->profile_type->label() }}
@@ -176,6 +176,7 @@
             </div>
 
             {{-- Section 2 : Coordonnées --}}
+            @php $continents = ['Afrique','Amérique du Nord','Amérique du Sud','Asie','Europe','Océanie']; @endphp
             <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
                 <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-5">Coordonnées</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -194,6 +195,17 @@
                     </div>
 
                     <div>
+                        <label class="form-label">Continent</label>
+                        <select name="continent" class="form-input mt-1">
+                            <option value="">— Sélectionner —</option>
+                            @foreach($continents as $c)
+                                <option value="{{ $c }}" {{ old('continent', $user->continent) === $c ? 'selected' : '' }}>{{ $c }}</option>
+                            @endforeach
+                        </select>
+                        @error('continent')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    </div>
+
+                    <div>
                         <label class="form-label">Pays</label>
                         <input type="text" name="country" value="{{ old('country', $user->country) }}"
                             class="form-input mt-1" placeholder="Ex : Burkina Faso">
@@ -205,7 +217,7 @@
                             class="form-input mt-1" placeholder="Ex : Ouagadougou">
                     </div>
 
-                    <div class="sm:col-span-2">
+                    <div>
                         <label class="form-label">Adresse</label>
                         <input type="text" name="address" value="{{ old('address', $user->address) }}"
                             class="form-input mt-1" placeholder="Rue, quartier, secteur...">

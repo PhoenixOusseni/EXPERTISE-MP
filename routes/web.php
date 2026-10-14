@@ -117,4 +117,8 @@ Route::prefix('admin')
         Route::get('messages/{contactRequest}', [Admin\ContactController::class, 'show'])->name('contact.show');
         Route::post('messages/{contactRequest}/repondre', [Admin\ContactController::class, 'reply'])->name('contact.reply');
         Route::post('messages/{contactRequest}/statut', [Admin\ContactController::class, 'updateStatus'])->name('contact.status');
+
+        // Profil admin
+        Route::get('profil/mot-de-passe', [Admin\ProfileController::class, 'showPasswordForm'])->name('profile.password');
+        Route::put('profil/mot-de-passe', [Admin\ProfileController::class, 'updatePassword'])->name('profile.password.update');
     });
