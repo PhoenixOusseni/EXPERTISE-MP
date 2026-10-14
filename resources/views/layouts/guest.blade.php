@@ -86,7 +86,7 @@
 
                 <!-- Services list -->
                 <div class="space-y-2.5 mb-8">
-                    @foreach (['Formation professionnelle', 'Consultation & Appui-Conseil', 'Accompagnement sur mesure', 'Montage de dossiers', 'Coaching individuel', 'Stratégies gagnantes'] as $svc)
+                    @foreach (['Formation', 'Consultation', 'Appui-conseil / conseils', 'Accompagnement', 'Stratégies', 'Montage de dossiers de soumission / offres', 'Coaching'] as $svc)
                         <div class="flex items-center gap-3">
                             <div class="w-4 h-4 rounded-sm flex items-center justify-center flex-shrink-0"
                                 style="background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3);">
@@ -119,7 +119,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                +226 78547805 · @expertise.marchs
+                +226 78547805 · +226 76535063 · @expertise.marchs
             </div>
         </div>
 

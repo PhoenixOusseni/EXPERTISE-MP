@@ -16,8 +16,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.17.4/dist/cdn.min.js"></script>
     <style>
         :root {
-            --navy: #0B1E3E;
-            --navy-mid: #142B54;
+            --navy: #1a3a6e;
+            --navy-mid: #235090;
             --blue: #1B4FD8;
             --blue-light: #3B82F6;
             --gold: #C9A84C;
@@ -45,12 +45,12 @@
 
         /* Hero */
         .hero-section {
-            background: linear-gradient(160deg, #071323 0%, #0B1E3E 45%, #0F2958 100%);
+            background: linear-gradient(160deg, #112244 0%, #1a3a6e 45%, #1e4a8a 100%);
             min-height: 100vh;
         }
 
         .hero-glow {
-            background: radial-gradient(ellipse 600px 400px at 80% 50%, rgba(27, 79, 216, 0.25) 0%, transparent 70%);
+            background: radial-gradient(ellipse 600px 400px at 80% 50%, rgba(59, 130, 246, 0.30) 0%, transparent 70%);
         }
 
         .hero-line {
@@ -109,12 +109,12 @@
 
         /* Pricing card */
         .pricing-featured {
-            background: linear-gradient(150deg, #0B1E3E 0%, #142B54 100%);
+            background: linear-gradient(150deg, #1a3a6e 0%, #235090 100%);
         }
 
         /* CTA section */
         .cta-bg {
-            background: linear-gradient(135deg, #071323 0%, #0B1E3E 60%, #0d2d5e 100%);
+            background: linear-gradient(160deg, #112244 0%, #1a3a6e 50%, #1e4a8a 100%);
         }
 
         /* Animated underline */
@@ -169,7 +169,7 @@
 
         /* Footer */
         .footer-bg {
-            background: #060E1C;
+            background: #0d1e3a;
         }
     </style>
 </head>
@@ -275,6 +275,26 @@
                         </a>
                     </div>
 
+                    <!-- Social links -->
+                    <div class="flex items-center gap-3 mb-8">
+                        <a href="https://www.facebook.com/share/r/1EGPr5o3gz/" target="_blank" rel="noopener"
+                           class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition hover:scale-105"
+                           style="background: rgba(24,119,242,0.15); border: 1px solid rgba(24,119,242,0.3); color: #6ea8fe;">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Facebook
+                        </a>
+                        <a href="https://vt.tiktok.com/ZSbKYRfkP/" target="_blank" rel="noopener"
+                           class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition hover:scale-105"
+                           style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.8);">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/>
+                            </svg>
+                            TikTok
+                        </a>
+                    </div>
+
                     <!-- Trust bar -->
                     <div class="flex items-center gap-6 flex-wrap">
                         <div class="flex -space-x-2">
@@ -327,7 +347,7 @@
                             </div>
                             <!-- Services list -->
                             <div class="p-5 space-y-2.5">
-                                @foreach (['Formation', 'Consultation', 'Appui-Conseil', 'Accompagnement'] as $svc)
+                                @foreach (['Formation', 'Consultation', 'Appui-conseil / conseils', 'Accompagnement'] as $svc)
                                     <div class="flex items-center gap-3">
                                         <div class="w-1.5 h-1.5 rounded-full bg-[#C9A84C] flex-shrink-0"></div>
                                         <span class="text-sm text-blue-100/80">{{ $svc }}</span>
@@ -364,6 +384,7 @@
                                 <div>
                                     <p class="text-[10px] text-blue-300/60 font-medium">Contactez-nous</p>
                                     <p class="text-[13px] font-bold text-white">+226 78547805</p>
+                                    <p class="text-[13px] font-bold text-white">+226 76535063</p>
                                 </div>
                             </div>
                         </div>
@@ -446,7 +467,7 @@
                         ],
                         [
                             'num' => '03',
-                            'title' => 'Appui-Conseil',
+                            'title' => 'Appui-conseil / conseils',
                             'desc' =>
                                 "Conseils stratégiques personnalisés pour optimiser votre positionnement dans les appels d'offres.",
                             'icon' =>
@@ -473,7 +494,7 @@
                         ],
                         [
                             'num' => '06',
-                            'title' => 'Montage de dossiers',
+                            'title' => 'Montage de dossiers de soumission / offres',
                             'desc' =>
                                 'Préparation et structuration rigoureuse de vos dossiers de soumission, conformes aux exigences légales.',
                             'icon' =>
@@ -579,7 +600,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                 </svg>
-                                +226 78547805
+                                +226 78547805 · +226 76535063
                             </div>
                             <span class="text-[11px] text-blue-300/40">@expertise.marchs</span>
                         </div>
@@ -613,7 +634,7 @@
                     <p class="text-gray-500 mb-8 leading-relaxed">Nos experts vous transmettent une connaissance
                         terrain approfondie des marchés publics en Afrique de l'Ouest.</p>
                     <div class="space-y-4">
-                        @foreach ([['Expertise reconnue', "Des formateurs avec plus de 10 ans d'expérience dans les marchés publics.", '#1B4FD8'], ['Formation sur mesure', 'Programmes adaptés à votre niveau et à vos objectifs professionnels spécifiques.', '#059669'], ['Contenu vidéo HD', 'Formations disponibles 24h/24 depuis tous vos appareils, en HD.', '#7C3AED'], ['Résultats prouvés', 'Nos apprenants remportent des marchés grâce à notre accompagnement concret.', '#C9A84C']] as [$title, $desc, $color])
+                        @foreach ([['Expertise reconnue', "Des formateurs avec plus de 10 ans d'expérience dans les marchés publics.", '#1B4FD8'], ['Formation', 'Programmes adaptés à votre niveau et à vos objectifs professionnels spécifiques.', '#059669'], ['Contenu vidéo HD', 'Formations disponibles 24h/24 depuis tous vos appareils, en HD.', '#7C3AED'], ['Résultats prouvés', 'Nos apprenants remportent des marchés grâce à notre accompagnement concret.', '#C9A84C']] as [$title, $desc, $color])
                             <div
                                 class="flex items-start gap-4 bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                                 <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
@@ -749,29 +770,47 @@
                             @endif
 
                             {{-- Card body --}}
-                            <div class="{{ $popular ? 'text-white' : 'bg-white' }} p-6 flex flex-col flex-1
+                            <div class="{{ $popular ? 'text-white' : 'bg-white' }} flex flex-col flex-1
                                          {{ $popular ? 'rounded-b-2xl' : 'rounded-2xl' }}"
                                  style="{{ $popular ? 'background: linear-gradient(150deg, ' . $group['color'] . ' 0%, ' . $group['color'] . 'cc 100%);' : '' }}">
 
-                                {{-- Duration badge --}}
-                                <div class="flex items-center justify-between mb-4">
-                                    <span class="text-xs font-semibold px-2.5 py-1 rounded-full
-                                                 {{ $popular ? 'bg-white/20 text-white' : 'text-gray-500' }}"
-                                          style="{{ !$popular ? 'background:' . $group['color'] . '12; color:' . $group['color'] . ';' : '' }}">
-                                        {{ $plan->duration_days }} jours
-                                    </span>
-                                    @if ($discount)
-                                        <span class="text-xs font-bold px-2 py-0.5 rounded-full
-                                                     {{ $popular ? 'bg-white/20 text-white' : 'bg-emerald-100 text-emerald-700' }}">
-                                            {{ $discount }}
+                                {{-- Decorative card header --}}
+                                <div class="relative overflow-hidden px-6 pt-5 pb-4"
+                                     style="{{ $popular
+                                         ? 'background: rgba(255,255,255,0.10); border-bottom: 1px solid rgba(255,255,255,0.15);'
+                                         : 'background: linear-gradient(135deg, ' . $group['color'] . '0e 0%, ' . $group['color'] . '1c 100%); border-bottom: 1px solid ' . $group['color'] . '18;' }}">
+
+                                    {{-- Decorative orbs --}}
+                                    <div class="absolute -top-5 -right-5 w-20 h-20 rounded-full pointer-events-none"
+                                         style="background: {{ $group['color'] }}{{ $popular ? '28' : '14' }};"></div>
+                                    <div class="absolute top-3 right-10 w-9 h-9 rounded-full pointer-events-none"
+                                         style="background: {{ $group['color'] }}{{ $popular ? '18' : '0d' }};"></div>
+                                    <div class="absolute -bottom-4 -left-4 w-14 h-14 rounded-full pointer-events-none"
+                                         style="background: {{ $group['color'] }}{{ $popular ? '20' : '0a' }};"></div>
+
+                                    {{-- Duration & discount row --}}
+                                    <div class="flex items-center justify-between mb-3 relative z-10">
+                                        <span class="text-xs font-semibold px-2.5 py-1 rounded-full
+                                                     {{ $popular ? 'bg-white/20 text-white' : '' }}"
+                                              style="{{ !$popular ? 'background:' . $group['color'] . '18; color:' . $group['color'] . ';' : '' }}">
+                                            {{ $plan->duration_days }} jours
                                         </span>
-                                    @endif
+                                        @if ($discount)
+                                            <span class="text-xs font-bold px-2 py-0.5 rounded-full
+                                                         {{ $popular ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                                {{ $discount }}
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    {{-- Plan name --}}
+                                    <h4 class="text-base font-bold relative z-10 {{ $popular ? 'text-white' : 'text-[#0B1E3E]' }}">
+                                        {{ $plan->name }}
+                                    </h4>
                                 </div>
 
-                                {{-- Plan name --}}
-                                <h4 class="text-base font-bold mb-3 {{ $popular ? 'text-white' : 'text-[#0B1E3E]' }}">
-                                    {{ $plan->name }}
-                                </h4>
+                                {{-- Card content --}}
+                                <div class="px-6 pt-5 pb-6 flex flex-col flex-1">
 
                                 {{-- Price --}}
                                 <div class="mb-5">
@@ -783,6 +822,11 @@
                                             {{ $plan->currency }}
                                         </span>
                                     </div>
+                                    @if ($plan->price_xof)
+                                        <div class="mt-1 text-xs font-medium {{ $popular ? 'text-white/60' : 'text-gray-400' }}">
+                                            ≈ {{ number_format($plan->price_xof, 0, '.', ' ') }} XOF
+                                        </div>
+                                    @endif
                                 </div>
 
                                 {{-- Features --}}
@@ -822,8 +866,9 @@
                                         Choisir
                                     </a>
                                 @endif
-                            </div>
-                        </div>
+                                </div>{{-- /card content --}}
+                            </div>{{-- /card body --}}
+                        </div>{{-- /card wrapper --}}
                     @endforeach
                 </div>
             </div>
@@ -873,7 +918,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
-                    +226 78547805
+                    +226 78547805 · +226 76535063
                 </span>
                 <div class="w-px h-4 bg-white/20"></div>
                 <span class="text-blue-200/60">@expertise.marchs</span>
@@ -892,11 +937,16 @@
                     <p class="text-sm leading-relaxed mb-5 max-w-xs">Formation, Consultation, Accompagnement et
                         Coaching pour l'excellence en marchés publics en Afrique de l'Ouest.</p>
                     <div class="flex items-center gap-3">
-                        <a href="#"
-                            class="w-9 h-9 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center hover:bg-[#C9A84C]/20 hover:border-[#C9A84C]/30 transition">
+                        <a href="https://www.facebook.com/share/r/1EGPr5o3gz/" target="_blank" rel="noopener"
+                            class="w-9 h-9 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center hover:bg-[#1877F2]/20 hover:border-[#1877F2]/40 transition" title="Facebook">
                             <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="https://vt.tiktok.com/ZSbKYRfkP/" target="_blank" rel="noopener"
+                            class="w-9 h-9 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center hover:bg-white/10 hover:border-white/30 transition" title="TikTok">
+                            <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/>
                             </svg>
                         </a>
                     </div>
@@ -906,7 +956,7 @@
                 <div>
                     <h4 class="text-white font-semibold text-sm mb-4">Nos services</h4>
                     <ul class="space-y-2.5 text-sm">
-                        @foreach (['Formation', 'Consultation', 'Appui-Conseil', 'Accompagnement', 'Stratégies', 'Montage de dossiers', 'Coaching'] as $s)
+                        @foreach (['Formation', 'Consultation', 'Appui-conseil / conseils', 'Accompagnement', 'Stratégies', 'Montage de dossiers de soumission / offres', 'Coaching'] as $s)
                             <li class="flex items-center gap-2 hover:text-[#C9A84C] transition cursor-default">
                                 <div class="w-1 h-1 rounded-full bg-[#C9A84C]/50"></div>
                                 {{ $s }}
@@ -930,6 +980,18 @@
                                 </svg>
                             </div>
                             +226 78547805
+                        </a>
+                        <a href="tel:+22676535063"
+                            class="flex items-center gap-3 hover:text-[#C9A84C] transition group">
+                            <div
+                                class="w-8 h-8 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:border-[#C9A84C]/30 transition">
+                                <svg class="w-3.5 h-3.5 text-[#C9A84C]" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                </svg>
+                            </div>
+                            +226 76535063
                         </a>
                         <div class="flex items-center gap-3">
                             <div

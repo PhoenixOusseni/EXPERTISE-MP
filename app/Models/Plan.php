@@ -18,6 +18,7 @@ class Plan extends Model
         'slug',
         'description',
         'price',
+        'price_xof',
         'currency',
         'duration_days',
         'features',

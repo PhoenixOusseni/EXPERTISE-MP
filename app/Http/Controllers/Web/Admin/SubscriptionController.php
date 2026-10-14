@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Enums\SubscriptionStatus;
 use App\Http\Controllers\Controller;
+use App\Mail\AbonnementActive;
+use App\Mail\AbonnementAnnule;
 use App\Models\Plan;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class SubscriptionController extends Controller
@@ -84,13 +87,23 @@ class SubscriptionController extends Controller
         }
 
         $subscription->activate();
+        $subscription->load(['user', 'plan']);
+
+        try {
+            Mail::to($subscription->user->email)->send(new AbonnementActive($subscription->user, $subscription));
+        } catch (\Exception) {}
 
         return back()->with('success', 'Abonnement activé.');
     }
 
     public function cancel(Subscription $subscription): RedirectResponse
     {
+        $subscription->load(['user', 'plan']);
         $subscription->cancel();
+
+        try {
+            Mail::to($subscription->user->email)->send(new AbonnementAnnule($subscription->user, $subscription));
+        } catch (\Exception) {}
 
         return back()->with('success', 'Abonnement annulé.');
     }

@@ -58,6 +58,9 @@
             <div class="mt-4 mb-6">
                 <span class="text-4xl font-extrabold text-gray-900">{{ number_format($plan->price, 0, '.', ' ') }}</span>
                 <span class="text-gray-500 ml-1 text-sm">{{ $plan->currency }}</span>
+                @if ($plan->price_xof)
+                    <span class="text-gray-400 text-xs block mt-0.5">≈ {{ number_format($plan->price_xof, 0, '.', ' ') }} XOF</span>
+                @endif
                 <span class="text-gray-400 text-xs block mt-0.5">pour {{ $plan->duration_days }} jours</span>
             </div>
             @if($plan->features)
@@ -80,69 +83,13 @@
                     ✓ Abonnement actif
                 </button>
             @else
-            <!-- Subscription modal trigger -->
-            <div x-data>
-                <button @click="$dispatch('open-subscribe', { planId: {{ $plan->id }}, planName: '{{ $plan->name }}', price: '{{ number_format($plan->price, 0, '.', ' ') }} {{ $plan->currency }}' })"
-                    class="{{ $loop->iteration === 2 ? 'btn-primary' : 'btn-secondary' }} btn w-full justify-center">
+                <a href="{{ route('subscriptions.checkout', $plan) }}"
+                   class="{{ $loop->iteration === 2 ? 'btn-primary' : 'btn-secondary' }} btn w-full justify-center">
                     Souscrire
-                </button>
-            </div>
+                </a>
             @endif
         </div>
         @endforeach
-    </div>
-
-    <!-- Subscribe modal -->
-    <div x-data="{
-            open: false,
-            planId: null,
-            planName: '',
-            price: '',
-            paymentMethod: 'orange_money',
-            paymentReference: '',
-            methods: [
-                { value: 'orange_money', label: 'Orange Money' },
-                { value: 'free_money', label: 'Free Money' },
-                { value: 'wave', label: 'Wave' },
-                { value: 'carte_bancaire', label: 'Carte bancaire' },
-                { value: 'especes', label: 'Espèces' },
-            ]
-         }"
-         @open-subscribe.window="open = true; planId = $event.detail.planId; planName = $event.detail.planName; price = $event.detail.price">
-
-        <div x-show="open" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4" x-transition>
-            <div class="absolute inset-0 bg-black/50" @click="open = false"></div>
-            <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-md" @click.stop>
-                <div class="p-6 border-b border-gray-100">
-                    <h3 class="text-lg font-bold text-gray-900">Souscrire à <span x-text="planName"></span></h3>
-                    <p class="text-sm text-gray-500 mt-0.5">Montant : <span class="font-semibold text-gray-700" x-text="price"></span></p>
-                </div>
-                <form method="POST" action="{{ route('subscriptions.store') }}">
-                    @csrf
-                    <input type="hidden" name="plan_id" :value="planId">
-                    <div class="p-6 space-y-4">
-                        <div>
-                            <label class="form-label">Mode de paiement</label>
-                            <select name="payment_method" x-model="paymentMethod" class="form-input">
-                                <template x-for="m in methods" :key="m.value">
-                                    <option :value="m.value" x-text="m.label"></option>
-                                </template>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="form-label">Référence / Numéro de transaction <span class="text-gray-400 font-normal">(optionnel)</span></label>
-                            <input type="text" name="payment_reference" x-model="paymentReference"
-                                class="form-input" placeholder="Ex: TXN123456789">
-                            <p class="text-xs text-gray-400 mt-1.5">Indiquez votre référence de paiement pour accélérer la validation.</p>
-                        </div>
-                    </div>
-                    <div class="p-6 pt-0 flex gap-3">
-                        <button type="button" @click="open = false" class="btn-secondary flex-1 justify-center">Annuler</button>
-                        <button type="submit" class="btn-primary flex-1 justify-center">Confirmer la demande</button>
-                    </div>
-                </form>
-            </div>
-        </div>
     </div>
 </div>
 @endsection

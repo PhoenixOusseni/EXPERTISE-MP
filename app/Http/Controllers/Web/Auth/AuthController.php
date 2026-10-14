@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Web\Auth;
 use App\Enums\LearnerProfile;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
+use App\Mail\Admin\NouveauCompte;
+use App\Mail\BienvenueApprenant;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\Password;
 use App\Models\User;
 use Illuminate\View\View;
@@ -88,6 +91,13 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
+
+        try {
+            Mail::to($user->email)->send(new BienvenueApprenant($user));
+            Mail::to(config('formation.admin.email'))->send(new NouveauCompte($user));
+        } catch (\Exception) {
+            // L'envoi d'email ne bloque pas l'inscription
+        }
 
         return redirect()->route('catalogue')->with('success', 'Bienvenue ' . $user->first_name . ' ! Votre compte a été créé.');
     }

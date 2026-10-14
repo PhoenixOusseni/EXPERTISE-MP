@@ -22,16 +22,21 @@ class ProfileController extends Controller
         $user = auth()->user();
 
         $data = $request->validate([
-            'name'       => ['required', 'string', 'max:255'],
+            'last_name'  => ['required', 'string', 'max:100'],
+            'first_name' => ['required', 'string', 'max:100'],
+            'email'      => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'phone'      => ['nullable', 'string', 'max:30'],
+            'birth_date' => ['nullable', 'date', 'before:today'],
+            'gender'     => ['nullable', 'string', 'in:homme,femme,autre'],
             'intitule'   => ['nullable', 'string', 'max:200'],
             'profession' => ['nullable', 'string', 'max:150'],
             'address'    => ['nullable', 'string', 'max:255'],
             'city'       => ['nullable', 'string', 'max:100'],
             'country'    => ['nullable', 'string', 'max:100'],
             'bio'        => ['nullable', 'string', 'max:500'],
-            'email'      => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
         ]);
+
+        $data['name'] = $data['first_name'] . ' ' . $data['last_name'];
 
         $user->update($data);
 

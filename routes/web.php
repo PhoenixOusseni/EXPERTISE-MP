@@ -41,6 +41,7 @@ Route::middleware(['auth', 'active'])->group(function () {
     Route::get('/videos/{slug}', [Apprenant\CatalogueController::class, 'show'])->name('videos.show');
 
     Route::get('/formules', [Apprenant\AbonnementController::class, 'plans'])->name('formules');
+    Route::get('/souscrire/{plan}', [Apprenant\AbonnementController::class, 'checkout'])->name('subscriptions.checkout');
     Route::get('/mon-abonnement', [Apprenant\AbonnementController::class, 'index'])->name('mon-abonnement');
     Route::post('/abonnements', [Apprenant\AbonnementController::class, 'store'])->name('subscriptions.store');
     Route::post('/abonnements/{subscription}/annuler', [Apprenant\AbonnementController::class, 'cancel'])->name('subscriptions.cancel');

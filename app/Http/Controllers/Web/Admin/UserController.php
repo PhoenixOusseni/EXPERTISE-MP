@@ -14,14 +14,26 @@ class UserController extends Controller
     {
         $users = User::apprenants()
             ->with('activeSubscription.plan')
-            ->when($request->filled('search'), fn ($q) => $q->where(fn ($q) => $q
-                ->where('name', 'like', '%'.$request->search.'%')
-                ->orWhere('email', 'like', '%'.$request->search.'%')))
-            ->when($request->boolean('subscribed'), fn ($q) => $q->withActiveSubscription())
+            ->when($request->filled('search'), fn ($q) => $q->where(fn ($u) => $u
+                ->where('name',  'like', '%'.$request->search.'%')
+                ->orWhere('email', 'like', '%'.$request->search.'%')
+                ->orWhere('phone', 'like', '%'.$request->search.'%')))
+            ->when($request->filled('subscribed'), function ($q) use ($request) {
+                $request->subscribed === '1'
+                    ? $q->withActiveSubscription()
+                    : $q->whereDoesntHave('subscriptions', fn ($s) => $s->currentlyActive());
+            })
+            ->when($request->filled('gender'),       fn ($q) => $q->where('gender',       $request->gender))
+            ->when($request->filled('profile_type'), fn ($q) => $q->where('profile_type', $request->profile_type))
+            ->when($request->filled('country'),      fn ($q) => $q->where('country',      $request->country))
+            ->when($request->filled('city'),         fn ($q) => $q->where('city',         $request->city))
             ->latest()
             ->paginate(20);
 
-        return view('admin.users.index', compact('users'));
+        $countries = User::apprenants()->whereNotNull('country')->distinct()->orderBy('country')->pluck('country');
+        $cities    = User::apprenants()->whereNotNull('city')->distinct()->orderBy('city')->pluck('city');
+
+        return view('admin.users.index', compact('users', 'countries', 'cities'));
     }
 
     public function show(User $user): View

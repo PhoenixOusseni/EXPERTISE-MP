@@ -31,49 +31,49 @@ class DatabaseSeeder extends Seeder
             // ── Contenu Entreprise ──
             [
                 'name' => 'Mensuel Entreprise', 'profile_type' => LearnerProfile::Entreprise,
-                'price' => 15.00, 'currency' => 'USD', 'duration_days' => 30,
+                'price' => 15.00, 'price_xof' => 10000, 'currency' => 'USD', 'duration_days' => 30,
                 'features' => ['Accès aux vidéos Entreprise pendant 1 mois'],
             ],
             [
                 'name' => 'Trimestriel Entreprise', 'profile_type' => LearnerProfile::Entreprise,
-                'price' => 41.00, 'currency' => 'USD', 'duration_days' => 90,
+                'price' => 41.00, 'price_xof' => 27000, 'currency' => 'USD', 'duration_days' => 90,
                 'features' => ['Accès aux vidéos Entreprise pendant 3 mois', '10 % d\'économie'],
             ],
             [
                 'name' => 'Semestriel Entreprise', 'profile_type' => LearnerProfile::Entreprise,
-                'price' => 80.00, 'currency' => 'USD', 'duration_days' => 180,
+                'price' => 80.00, 'price_xof' => 52800, 'currency' => 'USD', 'duration_days' => 180,
                 'features' => ['Accès aux vidéos Entreprise pendant 6 mois', '12 % d\'économie'],
             ],
             [
                 'name' => 'Annuel Entreprise', 'profile_type' => LearnerProfile::Entreprise,
-                'price' => 156.00, 'currency' => 'USD', 'duration_days' => 365,
+                'price' => 156.00, 'price_xof' => 102000, 'currency' => 'USD', 'duration_days' => 365,
                 'features' => ['Accès aux vidéos Entreprise pendant 1 an', '15 % d\'économie'],
             ],
             // ── Contenu Administration ──
             [
                 'name' => 'Mensuel Administration', 'profile_type' => LearnerProfile::Administration,
-                'price' => 8.00, 'currency' => 'USD', 'duration_days' => 30,
+                'price' => 8.00, 'price_xof' => 5000, 'currency' => 'USD', 'duration_days' => 30,
                 'features' => ['Accès aux vidéos Administration pendant 1 mois'],
             ],
             [
                 'name' => 'Trimestriel Administration', 'profile_type' => LearnerProfile::Administration,
-                'price' => 21.00, 'currency' => 'USD', 'duration_days' => 90,
+                'price' => 21.00, 'price_xof' => 13500, 'currency' => 'USD', 'duration_days' => 90,
                 'features' => ['Accès aux vidéos Administration pendant 3 mois', '10 % d\'économie'],
             ],
             [
                 'name' => 'Semestriel Administration', 'profile_type' => LearnerProfile::Administration,
-                'price' => 40.00, 'currency' => 'USD', 'duration_days' => 180,
+                'price' => 40.00, 'price_xof' => 26400, 'currency' => 'USD', 'duration_days' => 180,
                 'features' => ['Accès aux vidéos Administration pendant 6 mois', '12 % d\'économie'],
             ],
             [
                 'name' => 'Annuel Administration', 'profile_type' => LearnerProfile::Administration,
-                'price' => 78.00, 'currency' => 'USD', 'duration_days' => 365,
+                'price' => 78.00, 'price_xof' => 51000, 'currency' => 'USD', 'duration_days' => 365,
                 'features' => ['Accès aux vidéos Administration pendant 1 an', '15 % d\'économie'],
             ],
         ];
 
         foreach ($plans as $plan) {
-            Plan::firstOrCreate(['name' => $plan['name']], $plan);
+            Plan::updateOrCreate(['name' => $plan['name']], $plan);
         }
 
         foreach (['Développement web', 'Bureautique', 'Marketing digital', 'Design graphique'] as $name) {

@@ -5,14 +5,36 @@ namespace App\Http\Controllers\Web\Apprenant;
 use App\Enums\LearnerProfile;
 use App\Enums\SubscriptionStatus;
 use App\Http\Controllers\Controller;
+use App\Mail\AbonnementSoumis;
+use App\Mail\Admin\NouvelAbonnement;
 use App\Models\Plan;
 use App\Models\Subscription;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class AbonnementController extends Controller
 {
+    public function checkout(Request $request, Plan $plan): View|RedirectResponse
+    {
+        $user = $request->user();
+
+        if ($user->hasActiveSubscription()) {
+            return redirect()->route('mon-abonnement')
+                ->with('warning', 'Vous avez déjà un abonnement actif.');
+        }
+
+        if ($user->subscriptions()->where('status', SubscriptionStatus::Pending)->exists()) {
+            return redirect()->route('formules')
+                ->with('warning', 'Vous avez déjà une demande en attente de validation.');
+        }
+
+        abort_unless($plan->is_active, 404);
+
+        return view('apprenant.souscrire', compact('plan'));
+    }
+
     public function plans(Request $request): View
     {
         $user = $request->user();
@@ -40,9 +62,10 @@ class AbonnementController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'plan_id' => ['required', 'integer', 'exists:plans,id'],
-            'payment_method' => ['required', 'string', 'max:50'],
-            'payment_reference' => ['nullable', 'string', 'max:255'],
+            'plan_id'  => ['required', 'integer', 'exists:plans,id'],
+            'operator' => ['required', 'string', 'in:orange_money,moov_africa'],
+            'phone'    => ['required', 'string', 'max:20'],
+            'otp'      => ['required', 'string', 'max:10'],
         ]);
 
         $user = $request->user();
@@ -59,14 +82,22 @@ class AbonnementController extends Controller
 
         $plan = Plan::active()->findOrFail($data['plan_id']);
 
-        $user->subscriptions()->create([
-            'plan_id' => $plan->id,
-            'status' => SubscriptionStatus::Pending,
-            'amount' => $plan->price,
-            'currency' => $plan->currency,
-            'payment_method' => $data['payment_method'],
-            'payment_reference' => $data['payment_reference'] ?? null,
+        $subscription = $user->subscriptions()->create([
+            'plan_id'           => $plan->id,
+            'status'            => SubscriptionStatus::Pending,
+            'amount'            => $plan->price,
+            'currency'          => $plan->currency,
+            'payment_method'    => $data['operator'],
+            'payment_reference' => '+226 ' . $data['phone'] . ' | OTP: ' . $data['otp'],
         ]);
+
+        try {
+            $subscription->load('plan');
+            Mail::to($user->email)->send(new AbonnementSoumis($user, $subscription));
+            Mail::to(config('formation.admin.email'))->send(new NouvelAbonnement($subscription));
+        } catch (\Exception) {
+            // L'envoi d'email ne bloque pas la demande
+        }
 
         return redirect()->route('mon-abonnement')
             ->with('success', 'Votre demande d\'abonnement a été enregistrée. Elle sera activée après vérification du paiement.');
