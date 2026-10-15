@@ -76,7 +76,7 @@ class DatabaseSeeder extends Seeder
             Plan::updateOrCreate(['name' => $plan['name']], $plan);
         }
 
-        foreach (['Développement web', 'Bureautique', 'Marketing digital', 'Design graphique'] as $name) {
+        foreach (['Finances publiques', 'Marchés publics', 'Partenariat public-Privé', 'Projets'] as $name) {
             Category::firstOrCreate(['name' => $name]);
         }
     }

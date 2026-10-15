@@ -8,8 +8,8 @@
         otp: '',
         get ussd() {
             const amount = {{ $plan->price_xof ?? 0 }};
-            if (this.operator === 'orange_money') return '*144*2*1*76535063*' + amount + '#';
-            return '*555*1*76535063*' + amount + '#';
+            if (this.operator === 'orange_money') return '*144*2*1*46788578*' + amount + '#';
+            return '*555*1*46788578*' + amount + '#';
         }
     }">
 

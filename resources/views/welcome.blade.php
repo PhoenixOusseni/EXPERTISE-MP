@@ -384,7 +384,7 @@
                                 <div>
                                     <p class="text-[10px] text-blue-300/60 font-medium">Contactez-nous</p>
                                     <p class="text-[13px] font-bold text-white">+226 78547805</p>
-                                    <p class="text-[13px] font-bold text-white">+226 76535063</p>
+                                    <p class="text-[13px] font-bold text-white">+226 46788578</p>
                                 </div>
                             </div>
                         </div>
@@ -600,7 +600,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                 </svg>
-                                +226 78547805 · +226 76535063
+                                +226 78547805 · +226 46788578
                             </div>
                             <span class="text-[11px] text-blue-300/40">@expertise.marchs</span>
                         </div>
@@ -747,12 +747,15 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                     @foreach ($group['plans'] as $plan)
                         @php
-                            $savings  = [null, '−10%', '−12%', '−15%'];
-                            $popular  = $loop->index === 1; // Trimestriel
-                            $best     = $loop->index === 3; // Annuel
-                            $discount = $savings[$loop->index] ?? null;
-                            $badges   = ['Starter', 'Populaire', 'Pro', 'Premium'];
-                            $badge    = $badges[$loop->index] ?? '';
+                            $savings    = [null, '−10%', '−12%', '−15%'];
+                            $popular    = $loop->index === 1; // Trimestriel
+                            $best       = $loop->index === 3; // Annuel
+                            $discount   = $savings[$loop->index] ?? null;
+                            $badges     = ['Starter', 'Populaire', 'Pro', 'Premium'];
+                            $badge      = $badges[$loop->index] ?? '';
+                            // Couleur unique par carte pour les filigranes
+                            $cardColors = ['#10b981', '#3B82F6', '#8B5CF6', '#F59E0B'];
+                            $cardColor  = $cardColors[$loop->index];
                         @endphp
                         <div class="relative rounded-2xl flex flex-col overflow-hidden
                                     {{ $popular ? 'shadow-xl ring-2' : 'shadow-md border border-gray-100' }}"
@@ -780,21 +783,21 @@
                                 <div class="relative overflow-hidden px-6 pt-5 pb-4"
                                      style="{{ $popular
                                          ? 'background: rgba(255,255,255,0.10); border-bottom: 1px solid rgba(255,255,255,0.15);'
-                                         : 'background: linear-gradient(135deg, ' . $group['color'] . '0e 0%, ' . $group['color'] . '1c 100%); border-bottom: 1px solid ' . $group['color'] . '18;' }}">
+                                         : 'background: linear-gradient(135deg, ' . $cardColor . '12 0%, ' . $cardColor . '20 100%); border-bottom: 1px solid ' . $cardColor . '22;' }}">
 
                                     {{-- Decorative orbs --}}
                                     <div class="absolute -top-5 -right-5 w-20 h-20 rounded-full pointer-events-none"
-                                         style="background: {{ $group['color'] }}{{ $popular ? '28' : '14' }};"></div>
+                                         style="background: {{ $cardColor }}{{ $popular ? '35' : '20' }};"></div>
                                     <div class="absolute top-3 right-10 w-9 h-9 rounded-full pointer-events-none"
-                                         style="background: {{ $group['color'] }}{{ $popular ? '18' : '0d' }};"></div>
+                                         style="background: {{ $cardColor }}{{ $popular ? '22' : '14' }};"></div>
                                     <div class="absolute -bottom-4 -left-4 w-14 h-14 rounded-full pointer-events-none"
-                                         style="background: {{ $group['color'] }}{{ $popular ? '20' : '0a' }};"></div>
+                                         style="background: {{ $cardColor }}{{ $popular ? '28' : '16' }};"></div>
 
                                     {{-- Duration & discount row --}}
                                     <div class="flex items-center justify-between mb-3 relative z-10">
                                         <span class="text-xs font-semibold px-2.5 py-1 rounded-full
                                                      {{ $popular ? 'bg-white/20 text-white' : '' }}"
-                                              style="{{ !$popular ? 'background:' . $group['color'] . '18; color:' . $group['color'] . ';' : '' }}">
+                                              style="{{ !$popular ? 'background:' . $cardColor . '18; color:' . $cardColor . ';' : '' }}">
                                             {{ $plan->duration_days }} jours
                                         </span>
                                         @if ($discount)
@@ -809,7 +812,7 @@
                                     @if($badge)
                                         <div class="text-[10px] font-bold uppercase tracking-widest mb-1 relative z-10
                                                     {{ $popular ? 'text-white/60' : '' }}"
-                                             style="{{ !$popular ? 'color:' . $group['color'] . ';' : '' }}">
+                                             style="{{ !$popular ? 'color:' . $cardColor . ';' : '' }}">
                                             {{ $badge }}
                                         </div>
                                     @endif
@@ -927,7 +930,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
-                    +226 78547805 · +226 76535063
+                    +226 78547805 · +226 46788578
                 </span>
                 <div class="w-px h-4 bg-white/20"></div>
                 <span class="text-blue-200/60">@expertise.marchs</span>
@@ -1000,7 +1003,7 @@
                                         d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                 </svg>
                             </div>
-                            +226 76535063
+                            +226 46788578
                         </a>
                         <div class="flex items-center gap-3">
                             <div
