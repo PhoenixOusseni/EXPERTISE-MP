@@ -21,6 +21,13 @@ Route::get('/', [Apprenant\CatalogueController::class, 'welcome'])->name('welcom
 |--------------------------------------------------------------------------
 */
 
+// For storage link
+Route::get('/link', function () {
+    $targetFolder = storage_path('app/public');
+    $linkFolder = $_SERVER['DOCUMENT_ROOT'] . '/storage';
+    symlink($targetFolder, $linkFolder);
+});
+
 Route::middleware('guest')->group(function () {
     Route::get('/connexion', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/connexion', [AuthController::class, 'login']);
