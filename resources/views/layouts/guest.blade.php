@@ -21,7 +21,7 @@
         }
 
         .auth-panel {
-            background: linear-gradient(160deg, #071323 0%, #0B1E3E 50%, #0F2958 100%);
+            background: linear-gradient(160deg, #1a3a6e 0%, #2b5aad 50%, #3672c8 100%);
         }
 
         .auth-panel-grid {
@@ -80,8 +80,7 @@
                 </h2>
                 <div class="w-12 h-0.5 mb-5" style="background: linear-gradient(90deg, #C9A84C, #F0C96B);"></div>
                 <p class="text-blue-200/70 text-sm leading-relaxed mb-8 max-w-xs">
-                    Formation, consultation, accompagnement et coaching pour maîtriser les marchés publics en Afrique de
-                    l'Ouest.
+                    Formation, consultation, accompagnement et coaching pour maîtriser les marchés publics.
                 </p>
 
                 <!-- Services list -->

@@ -2,50 +2,52 @@
 @section('title', 'Connexion')
 
 @section('content')
-<div class="card">
-    <div class="card-body">
-        <h2 class="text-2xl font-bold text-center text-gray-900 mb-1">Bienvenue !</h2>
-        <p class="text-sm text-center text-gray-500 mb-8">Connectez-vous à votre espace Expertise Marchés Publics</p>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="text-2xl font-bold text-center text-gray-900 mb-1">Bienvenue !</h2>
+            <p class="text-sm text-center text-gray-500 mb-8">Connectez-vous à votre espace Expertise Marchés Publics</p>
 
-        <form method="POST" action="{{ route('login') }}" class="space-y-5">
-            @csrf
+            <form method="POST" action="{{ route('login') }}" class="space-y-5">
+                @csrf
 
-            <div>
-                <label for="login" class="form-label">Email ou numéro de téléphone</label>
-                <input id="login" type="text" name="login" value="{{ old('login') }}" required autofocus
-                    class="form-input {{ $errors->has('login') ? 'border-red-400 focus:ring-red-400' : '' }}"
-                    placeholder="votre@email.com ou +226 xx xx xx xx">
-                @error('login')
-                    <p class="form-error">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div>
-                <div class="flex items-center justify-between mb-1.5">
-                    <label for="password" class="form-label mb-0">Mot de passe</label>
+                <div>
+                    <label for="login" class="form-label">Email ou numéro de téléphone</label>
+                    <input id="login" type="text" name="login" value="{{ old('login') }}" required autofocus
+                        class="form-input {{ $errors->has('login') ? 'border-red-400 focus:ring-red-400' : '' }}"
+                        placeholder="votre@email.com ou +226 xx xx xx xx">
+                    @error('login')
+                        <p class="form-error">{{ $message }}</p>
+                    @enderror
                 </div>
-                <input id="password" type="password" name="password" required
-                    class="form-input {{ $errors->has('password') ? 'border-red-400 focus:ring-red-400' : '' }}"
-                    placeholder="••••••••">
-                @error('password')
-                    <p class="form-error">{{ $message }}</p>
-                @enderror
-            </div>
 
-            <div class="flex items-center gap-2">
-                <input id="remember" type="checkbox" name="remember" class="w-4 h-4 text-indigo-600 border-gray-300 rounded">
-                <label for="remember" class="text-sm text-gray-600">Se souvenir de moi</label>
-            </div>
+                <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label for="password" class="form-label mb-0">Mot de passe</label>
+                    </div>
+                    <input id="password" type="password" name="password" required
+                        class="form-input {{ $errors->has('password') ? 'border-red-400 focus:ring-red-400' : '' }}"
+                        placeholder="••••••••">
+                    @error('password')
+                        <p class="form-error">{{ $message }}</p>
+                    @enderror
+                </div>
 
-            <button type="submit" class="btn-primary w-full py-2.5 text-base">
-                Se connecter
-            </button>
-        </form>
+                <div class="flex items-center gap-2">
+                    <input id="remember" type="checkbox" name="remember"
+                        class="w-4 h-4 text-indigo-600 border-gray-300 rounded">
+                    <label for="remember" class="text-sm text-gray-600">Se souvenir de moi</label>
+                </div>
 
-        <p class="mt-6 text-center text-sm text-gray-500">
-            Pas encore de compte ?
-            <a href="{{ route('register') }}" class="text-indigo-600 font-semibold hover:text-indigo-700">S'inscrire gratuitement</a>
-        </p>
+                <button type="submit" class="btn-primary w-full py-2.5 text-base">
+                    Se connecter
+                </button>
+            </form>
+
+            <p class="mt-6 text-center text-sm text-gray-500">
+                Pas encore de compte ?
+                <a href="{{ route('register') }}" class="text-indigo-600 font-semibold hover:text-indigo-700">S'inscrire
+                    gratuitement</a>
+            </p>
+        </div>
     </div>
-</div>
 @endsection

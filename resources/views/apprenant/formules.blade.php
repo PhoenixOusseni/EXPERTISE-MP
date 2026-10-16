@@ -45,61 +45,76 @@
     </div>
     @endif
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        @foreach($plans as $plan)
-        @php
-            $planBadges = ['Starter', 'Populaire', 'Pro', 'Premium'];
-            $planBadge  = $planBadges[$loop->index] ?? '';
-            $isPopular  = $loop->iteration === 2;
-        @endphp
-        <div class="bg-white rounded-2xl border-2 {{ $isPopular ? 'border-indigo-600 shadow-xl shadow-indigo-100' : 'border-gray-200' }} p-7 relative flex flex-col">
-            @if($isPopular)
-                <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-indigo-600 text-white text-xs font-bold px-4 py-1 rounded-full">Le plus populaire</div>
-            @endif
-            @if($planBadge)
-                <div class="text-[10px] font-bold uppercase tracking-widest mb-1 {{ $isPopular ? 'text-indigo-500' : 'text-gray-400' }}">
-                    {{ $planBadge }}
-                </div>
-            @endif
-            <h3 class="text-lg font-bold text-gray-900">{{ $plan->name }}</h3>
-            @if($plan->description)
-            <p class="text-sm text-gray-500 mt-1">{{ $plan->description }}</p>
-            @endif
-            <div class="mt-4 mb-6">
-                <span class="text-4xl font-extrabold text-gray-900">{{ number_format($plan->price, 0, '.', ' ') }}</span>
-                <span class="text-gray-500 ml-1 text-sm">{{ $plan->currency }}</span>
-                @if ($plan->price_xof)
-                    <span class="text-gray-400 text-xs block mt-0.5">≈ {{ number_format($plan->price_xof, 0, '.', ' ') }} XOF</span>
-                @endif
-                <span class="text-gray-400 text-xs block mt-0.5">pour {{ $plan->duration_days }} jours</span>
-            </div>
-            @if($plan->features)
-            <ul class="space-y-2.5 flex-1 mb-7">
-                @foreach($plan->features as $feature)
-                <li class="flex items-start gap-2 text-sm text-gray-600">
-                    <svg class="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                    {{ $feature }}
-                </li>
-                @endforeach
-            </ul>
-            @endif
+    @php
+        $planBadges = ['Starter', 'Populaire', 'Pro', 'Premium'];
+        $groups = $isAutre
+            ? $plans->groupBy(fn ($p) => $p->profile_type->label())
+            : collect(['Formules' => $plans]);
+    @endphp
 
-            @if($pendingSubscription)
-                <button disabled class="btn btn-secondary w-full justify-center opacity-60 cursor-not-allowed">
-                    Demande en attente
-                </button>
-            @elseif($activeSubscription)
-                <button disabled class="btn btn-success w-full justify-center opacity-60 cursor-not-allowed">
-                    ✓ Abonnement actif
-                </button>
-            @else
-                <a href="{{ route('subscriptions.checkout', $plan) }}"
-                   class="{{ $loop->iteration === 2 ? 'btn-primary' : 'btn-secondary' }} btn w-full justify-center">
-                    Souscrire
-                </a>
-            @endif
+    @foreach($groups as $groupLabel => $groupPlans)
+
+        {{-- Titre de groupe (uniquement pour le profil Autre) --}}
+        @if($isAutre)
+            <div class="flex items-center gap-3 mb-4 {{ !$loop->first ? 'mt-10' : '' }}">
+                <span class="text-base font-bold text-gray-800">{{ $groupLabel }}</span>
+                <div class="flex-1 h-px bg-gray-200"></div>
+            </div>
+        @endif
+
+        <div class="grid grid-cols-1 md:grid-cols-{{ $isAutre ? '4' : '3' }} gap-5">
+            @foreach($groupPlans as $plan)
+            @php
+                $planBadge = $planBadges[$loop->index] ?? '';
+                $isPopular = $loop->iteration === 2;
+            @endphp
+            <div class="bg-white rounded-2xl border-2 {{ $isPopular && !$isAutre ? 'border-indigo-600 shadow-xl shadow-indigo-100' : 'border-gray-200' }} p-6 relative flex flex-col">
+                @if($isPopular && !$isAutre)
+                    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-indigo-600 text-white text-xs font-bold px-4 py-1 rounded-full whitespace-nowrap">Le plus populaire</div>
+                @endif
+                @if($planBadge)
+                    <div class="text-[10px] font-bold uppercase tracking-widest mb-1 {{ ($isPopular && !$isAutre) ? 'text-indigo-500' : 'text-gray-400' }}">
+                        {{ $planBadge }}
+                    </div>
+                @endif
+                <h3 class="text-base font-bold text-gray-900">{{ $plan->name }}</h3>
+                <div class="mt-3 mb-5">
+                    <span class="text-3xl font-extrabold text-gray-900">{{ number_format($plan->price, 0, '.', ' ') }}</span>
+                    <span class="text-gray-500 ml-1 text-sm">{{ $plan->currency }}</span>
+                    @if ($plan->price_xof)
+                        <span class="text-gray-400 text-xs block mt-0.5">≈ {{ number_format($plan->price_xof, 0, '.', ' ') }} XOF</span>
+                    @endif
+                    <span class="text-gray-400 text-xs block mt-0.5">pour {{ $plan->duration_days }} jours</span>
+                </div>
+                @if($plan->features)
+                <ul class="space-y-2 flex-1 mb-6">
+                    @foreach($plan->features as $feature)
+                    <li class="flex items-start gap-2 text-sm text-gray-600">
+                        <svg class="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        {{ $feature }}
+                    </li>
+                    @endforeach
+                </ul>
+                @endif
+
+                @if($pendingSubscription)
+                    <button disabled class="btn btn-secondary w-full justify-center opacity-60 cursor-not-allowed">
+                        Demande en attente
+                    </button>
+                @elseif($activeSubscription)
+                    <button disabled class="btn btn-success w-full justify-center opacity-60 cursor-not-allowed">
+                        ✓ Abonnement actif
+                    </button>
+                @else
+                    <a href="{{ route('subscriptions.checkout', $plan) }}"
+                       class="{{ ($isPopular && !$isAutre) ? 'btn-primary' : 'btn-secondary' }} btn w-full justify-center">
+                        Souscrire
+                    </a>
+                @endif
+            </div>
+            @endforeach
         </div>
-        @endforeach
-    </div>
+
+    @endforeach
 </div>
 @endsection

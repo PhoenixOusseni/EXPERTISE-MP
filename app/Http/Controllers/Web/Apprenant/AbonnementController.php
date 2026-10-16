@@ -37,17 +37,22 @@ class AbonnementController extends Controller
 
     public function plans(Request $request): View
     {
-        $user = $request->user();
+        $user    = $request->user();
         $profile = $user->profile_type instanceof LearnerProfile ? $user->profile_type : null;
 
+        // Le profil 'Autre' peut choisir parmi tous les plans (Entreprise + Administration).
+        $isAutre = $profile === LearnerProfile::Autre;
+
         $plans = Plan::active()
-            ->when($profile, fn ($q) => $q->forProfile($profile))
+            ->when(! $isAutre && $profile, fn ($q) => $q->forProfile($profile))
+            ->orderBy('profile_type')
             ->orderBy('price')
             ->get();
-        $activeSubscription = $user->activeSubscription()->with('plan')->first();
+
+        $activeSubscription  = $user->activeSubscription()->with('plan')->first();
         $pendingSubscription = $user->subscriptions()->where('status', SubscriptionStatus::Pending)->first();
 
-        return view('apprenant.formules', compact('plans', 'activeSubscription', 'pendingSubscription'));
+        return view('apprenant.formules', compact('plans', 'activeSubscription', 'pendingSubscription', 'isAutre'));
     }
 
     public function index(Request $request): View
@@ -63,7 +68,7 @@ class AbonnementController extends Controller
     {
         $data = $request->validate([
             'plan_id'  => ['required', 'integer', 'exists:plans,id'],
-            'operator' => ['required', 'string', 'in:orange_money,moov_africa'],
+            'operator' => ['required', 'string', 'in:orange_money,moov_money,telecel_money,sank_money,coris_money,paypal'],
             'phone'    => ['required', 'string', 'max:20'],
             'otp'      => ['required', 'string', 'max:10'],
         ]);

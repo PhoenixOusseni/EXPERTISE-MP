@@ -14,7 +14,7 @@
                 {{-- Type de profil --}}
                 <div>
                     <label class="form-label">Type de profil <span class="text-red-500">*</span></label>
-                    <div class="grid grid-cols-2 gap-3 mt-1">
+                    <div class="grid grid-cols-3 gap-3 mt-1">
                         @foreach (\App\Enums\LearnerProfile::cases() as $profile)
                             <label
                                 class="flex items-center gap-3 p-3 border rounded-lg cursor-pointer transition

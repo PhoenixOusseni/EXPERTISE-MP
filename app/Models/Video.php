@@ -29,7 +29,6 @@ class Video extends Model
         'file_path',
         'external_url',
         'thumbnail_path',
-        'duration',
         'level',
         'is_free',
         'is_published',
@@ -46,7 +45,6 @@ class Video extends Model
         return [
             'source_type' => VideoSourceType::class,
             'audience' => LearnerProfile::class,
-            'duration' => 'integer',
             'is_free' => 'boolean',
             'is_published' => 'boolean',
             'published_at' => 'datetime',

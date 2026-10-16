@@ -9,8 +9,10 @@
         get ussd() {
             const amount = {{ $plan->price_xof ?? 0 }};
             if (this.operator === 'orange_money') return '*144*2*1*46788578*' + amount + '#';
-            return '*555*1*46788578*' + amount + '#';
-        }
+            if (this.operator === 'moov_money')   return '*555*1*46788578*' + amount + '#';
+            return null;
+        },
+        get hasUssd() { return ['orange_money','moov_money'].includes(this.operator); }
     }">
 
         {{-- Breadcrumb --}}
@@ -73,61 +75,36 @@
 
                 {{-- Opérateur --}}
                 <div>
-                    <p class="text-sm font-medium text-gray-700 mb-3">Opérateur</p>
-                    <div class="grid grid-cols-2 gap-3">
-
-                        {{-- Orange Money --}}
+                    <p class="text-sm font-medium text-gray-700 mb-3">Moyen de paiement</p>
+                    <div class="grid grid-cols-3 gap-3">
+                        @foreach([
+                            ['value' => 'orange_money',  'label' => 'Orange Money',  'color' => '#FF6B00'],
+                            ['value' => 'moov_money',    'label' => 'Moov Money',    'color' => '#0066CC'],
+                            ['value' => 'telecel_money', 'label' => 'Telecel Money', 'color' => '#00ADEF'],
+                            ['value' => 'sank_money',    'label' => 'Sank Money',    'color' => '#E8192C'],
+                            ['value' => 'coris_money',   'label' => 'Coris Money',   'color' => '#00A651'],
+                            ['value' => 'paypal',        'label' => 'PayPal',        'color' => '#003087'],
+                        ] as $op)
                         <label class="relative cursor-pointer">
-                            <input type="radio" value="orange_money" x-model="operator" class="sr-only">
-                            <div class="border-2 rounded-xl p-4 flex flex-col items-center gap-2 transition-all"
-                                :class="operator === 'orange_money'
-                                    ?
-                                    'border-[#1B4FD8] bg-blue-50' :
-                                    'border-gray-200 hover:border-gray-300'">
-                                {{-- Orange Money logo placeholder --}}
-                                <div class="w-16 h-10 rounded-lg flex items-center justify-center"
-                                    style="background:#FF6B00;">
-                                    <span
-                                        class="text-white font-black text-xs leading-tight text-center">Orange<br>Money</span>
+                            <input type="radio" value="{{ $op['value'] }}" x-model="operator" class="sr-only">
+                            <div class="border-2 rounded-xl p-3 flex flex-col items-center gap-2 transition-all"
+                                :class="operator === '{{ $op['value'] }}'
+                                    ? 'border-gray-800 bg-gray-50'
+                                    : 'border-gray-200 hover:border-gray-300'">
+                                <div class="w-full h-9 rounded-lg flex items-center justify-center"
+                                    style="background: {{ $op['color'] }};">
+                                    <span class="text-white font-black text-[10px] leading-tight text-center px-1">{{ $op['label'] }}</span>
                                 </div>
-                                <span class="text-sm font-semibold text-gray-700">Orange</span>
-                                <div class="absolute top-2 right-2 w-5 h-5 rounded-full bg-[#1B4FD8] flex items-center justify-center transition-opacity"
-                                    :class="operator === 'orange_money' ? 'opacity-100' : 'opacity-0'">
-                                    <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                            d="M5 13l4 4L19 7" />
+                                <div class="absolute top-2 right-2 w-4 h-4 rounded-full flex items-center justify-center transition-opacity"
+                                    style="background: {{ $op['color'] }};"
+                                    :class="operator === '{{ $op['value'] }}' ? 'opacity-100' : 'opacity-0'">
+                                    <svg class="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
                                     </svg>
                                 </div>
                             </div>
                         </label>
-
-                        {{-- Moov Africa --}}
-                        <label class="relative cursor-pointer">
-                            <input type="radio" value="moov_africa" x-model="operator" class="sr-only">
-                            <div class="border-2 rounded-xl p-4 flex flex-col items-center gap-2 transition-all"
-                                :class="operator === 'moov_africa'
-                                    ?
-                                    'border-[#1B4FD8] bg-blue-50' :
-                                    'border-gray-200 hover:border-gray-300'">
-                                {{-- Moov logo placeholder --}}
-                                <div class="w-16 h-10 rounded-lg flex items-center justify-center"
-                                    style="background:#0066CC;">
-                                    <span
-                                        class="text-white font-black text-xs leading-tight text-center">Moov<br>Africa</span>
-                                </div>
-                                <span class="text-sm font-semibold text-gray-700">Moov</span>
-                                <div class="absolute top-2 right-2 w-5 h-5 rounded-full bg-[#1B4FD8] flex items-center justify-center transition-opacity"
-                                    :class="operator === 'moov_africa' ? 'opacity-100' : 'opacity-0'">
-                                    <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </label>
-
+                        @endforeach
                     </div>
                 </div>
 
@@ -157,11 +134,14 @@
                               focus:border-[#1B4FD8] focus:ring-2 focus:ring-[#1B4FD8]/20 transition-all
                               placeholder-gray-400 tracking-widest font-mono"
                         placeholder="Entrez votre référence de paiement" maxlength="10" required>
-                    <p class="text-xs text-gray-500 mt-2">
+                    <div x-show="hasUssd" class="text-xs text-gray-500 mt-2">
                         Composez
                         <span class="font-semibold text-[#1B4FD8]" x-text="ussd"></span>
-                        pour pour effectuer le paiement.
-                    </p>
+                        pour effectuer le paiement.
+                    </div>
+                    <div x-show="!hasUssd" class="text-xs text-gray-500 mt-2">
+                        Effectuez le paiement via votre application ou interface <span class="font-semibold" x-text="operator.replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase())"></span>, puis saisissez la référence reçue.
+                    </div>
                     @error('otp')
                         <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                     @enderror

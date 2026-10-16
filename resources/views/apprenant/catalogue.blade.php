@@ -35,7 +35,7 @@
             </div>
             <!-- Domain pills -->
             <div class="flex flex-wrap gap-2 max-w-xs">
-                @foreach (['Formation', 'Consultation', 'Coaching', 'Stratégies'] as $tag)
+                @foreach (['Formation', 'Consultation', 'Coaching', 'Appui-conseil / conseils', 'Accompagnement', 'Montage de dossiers de soumission / offres', 'Stratégies'] as $tag)
                     <span
                         class="bg-white/10 border border-white/20 text-white text-xs font-medium px-3 py-1 rounded-full">{{ $tag }}</span>
                 @endforeach
