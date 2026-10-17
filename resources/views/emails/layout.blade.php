@@ -32,7 +32,7 @@
                      padding:20px 36px;text-align:center;">
             <p style="color:#94a3b8;font-size:11px;margin:0;">
               © {{ date('Y') }} E-Formation — Expertise Marchés Publics<br>
-              +226 78547805 · +226 46788578
+              +226 78547805 (WhatsApp) &nbsp;·&nbsp; +226 46788578 (Tél)
             </p>
             <p style="color:#cbd5e1;font-size:10px;margin:8px 0 0;">
               Cet e-mail a été envoyé automatiquement, merci de ne pas y répondre.

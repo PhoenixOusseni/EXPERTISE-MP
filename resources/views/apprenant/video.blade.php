@@ -79,12 +79,25 @@
                             frameborder="0" allow="autoplay; fullscreen"
                             sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
                     @endif
-                @elseif($video->external_url)
-                    <video id="protected-video" class="w-full h-full" controls controlslist="nodownload noremoteplayback"
-                        disablepictureinpicture preload="metadata" oncontextmenu="return false;"
-                        ondragstart="return false;">
-                        <source src="{{ $video->external_url }}">
-                    </video>
+                @elseif($video->source_type->value === 'facebook' && $video->external_url)
+                    <iframe class="w-full h-full" frameborder="0" allowfullscreen scrolling="no"
+                        src="https://www.facebook.com/plugins/video.php?href={{ urlencode($video->external_url) }}&show_text=false&width=auto&autoplay=false"
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+                @elseif($video->source_type->value === 'tiktok' && $video->external_url)
+                    @php
+                        preg_match('/\/video\/(\d+)/', $video->external_url, $m);
+                        $tiktokId = $m[1] ?? null;
+                    @endphp
+                    @if ($tiktokId)
+                        <iframe class="w-full h-full" frameborder="0" allowfullscreen scrolling="no"
+                            src="https://www.tiktok.com/embed/v2/{{ $tiktokId }}"
+                            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+                    @else
+                        <div class="w-full h-full flex flex-col items-center justify-center text-white/60 gap-3">
+                            <svg class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+                            <p class="text-sm">Lien TikTok invalide. Format attendu :<br><span class="text-white/40 text-xs">https://www.tiktok.com/@compte/video/1234567890</span></p>
+                        </div>
+                    @endif
                 @endif
             </div>
 

@@ -83,8 +83,11 @@ class VideoController extends Controller
 
     protected function validateAndPrepare(Request $request, ?Video $video = null): array
     {
+        $sourceType  = $request->input('source_type', $video?->source_type?->value ?? VideoSourceType::Upload->value);
+        $isUpload    = $sourceType === VideoSourceType::Upload->value;
         $creating    = $video === null;
-        $urlRequired = $creating || ! $video?->external_url;
+        $fileRequired = $isUpload && ($creating || ! $video?->file_path);
+        $urlRequired  = ! $isUpload && ($creating || ! $video?->external_url);
 
         $rules = [
             'title'        => ['required', 'string', 'max:255'],
@@ -92,6 +95,7 @@ class VideoController extends Controller
             'category_id'  => ['nullable', 'integer', 'exists:categories,id'],
             'audience'     => ['required', \Illuminate\Validation\Rule::enum(LearnerProfile::class)],
             'source_type'  => ['required', \Illuminate\Validation\Rule::enum(VideoSourceType::class)],
+            'file'         => [$fileRequired ? 'required' : 'nullable', 'file', 'mimetypes:video/*', 'max:'.config('formation.max_video_size_kb')],
             'external_url' => [$urlRequired ? 'required' : 'nullable', 'nullable', 'url', 'max:2048'],
             'thumbnail'    => ['nullable', 'image', 'max:5120'],
             'level'        => ['nullable', 'string', 'in:debutant,intermediaire,avance'],
@@ -100,9 +104,22 @@ class VideoController extends Controller
         ];
 
         $data = $request->validate($rules);
-        unset($data['thumbnail']);
+        unset($data['file'], $data['thumbnail']);
 
-        $data['file_path'] = null;
+        if ($isUpload) {
+            $data['external_url'] = null;
+            if ($request->hasFile('file')) {
+                if ($video?->file_path) {
+                    Storage::disk(Video::VIDEO_DISK)->delete($video->file_path);
+                }
+                $data['file_path'] = $request->file('file')->store('videos', Video::VIDEO_DISK);
+            }
+        } else {
+            if ($video?->file_path) {
+                Storage::disk(Video::VIDEO_DISK)->delete($video->file_path);
+            }
+            $data['file_path'] = null;
+        }
 
         if ($request->hasFile('thumbnail')) {
             if ($video?->thumbnail_path) {

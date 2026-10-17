@@ -47,6 +47,10 @@ Route::middleware(['auth', 'active'])->group(function () {
     Route::get('/catalogue', [Apprenant\CatalogueController::class, 'index'])->name('catalogue');
     Route::get('/videos/{slug}', [Apprenant\CatalogueController::class, 'show'])->name('videos.show');
 
+    // Publications (abonnés)
+    Route::get('/publications', [Apprenant\PublicationController::class, 'index'])->name('publications.index');
+    Route::get('/publications/{publication}', [Apprenant\PublicationController::class, 'show'])->name('publications.show');
+
     Route::get('/formules', [Apprenant\AbonnementController::class, 'plans'])->name('formules');
     Route::get('/souscrire/{plan}', [Apprenant\AbonnementController::class, 'checkout'])->name('subscriptions.checkout');
     Route::get('/mon-abonnement', [Apprenant\AbonnementController::class, 'index'])->name('mon-abonnement');
@@ -128,4 +132,22 @@ Route::prefix('admin')
         // Profil admin
         Route::get('profil/mot-de-passe', [Admin\ProfileController::class, 'showPasswordForm'])->name('profile.password');
         Route::put('profil/mot-de-passe', [Admin\ProfileController::class, 'updatePassword'])->name('profile.password.update');
+
+        // Publications
+        Route::get('publications', [Admin\PublicationController::class, 'index'])->name('publications.index');
+        Route::get('publications/creer', [Admin\PublicationController::class, 'create'])->name('publications.create');
+        Route::post('publications', [Admin\PublicationController::class, 'store'])->name('publications.store');
+        Route::get('publications/{publication}/modifier', [Admin\PublicationController::class, 'edit'])->name('publications.edit');
+        Route::put('publications/{publication}', [Admin\PublicationController::class, 'update'])->name('publications.update');
+        Route::delete('publications/{publication}', [Admin\PublicationController::class, 'destroy'])->name('publications.destroy');
+        Route::post('publications/{publication}/publier', [Admin\PublicationController::class, 'publish'])->name('publications.publish');
+        Route::post('publications/{publication}/depublier', [Admin\PublicationController::class, 'unpublish'])->name('publications.unpublish');
+
+        // Publicités
+        Route::get('publicites', [Admin\PubliciteController::class, 'index'])->name('publicites.index');
+        Route::get('publicites/creer', [Admin\PubliciteController::class, 'create'])->name('publicites.create');
+        Route::post('publicites', [Admin\PubliciteController::class, 'store'])->name('publicites.store');
+        Route::get('publicites/{publicite}/modifier', [Admin\PubliciteController::class, 'edit'])->name('publicites.edit');
+        Route::put('publicites/{publicite}', [Admin\PubliciteController::class, 'update'])->name('publicites.update');
+        Route::delete('publicites/{publicite}', [Admin\PubliciteController::class, 'destroy'])->name('publicites.destroy');
     });

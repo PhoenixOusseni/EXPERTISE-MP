@@ -158,7 +158,6 @@
                             <option value="">— Non renseigné —</option>
                             <option value="homme"  {{ old('gender', $user->gender) === 'homme'  ? 'selected' : '' }}>Homme</option>
                             <option value="femme"  {{ old('gender', $user->gender) === 'femme'  ? 'selected' : '' }}>Femme</option>
-                            <option value="autre"  {{ old('gender', $user->gender) === 'autre'  ? 'selected' : '' }}>Autre</option>
                         </select>
                     </div>
 

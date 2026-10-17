@@ -3,6 +3,63 @@
 
 @section('content')
 
+    {{-- Publicités carousel --}}
+    @if (isset($publicites) && $publicites->isNotEmpty())
+    <div class="mb-6 relative group"
+        x-data="{
+            cur: 0,
+            n: {{ $publicites->count() }},
+            t: null,
+            start(){ this.t = setInterval(()=>this.next(), 4500); },
+            next(){ this.cur=(this.cur+1)%this.n; },
+            prev(){ this.cur=(this.cur-1+this.n)%this.n; },
+            go(i){ this.cur=i; clearInterval(this.t); this.start(); }
+        }"
+        x-init="start()"
+        @mouseenter="clearInterval(t)" @mouseleave="start()">
+
+        {{-- Track --}}
+        <div class="overflow-hidden rounded-2xl shadow-sm">
+            <div class="flex transition-transform duration-500 ease-in-out"
+                :style="`transform:translateX(-${cur*100}%)`">
+                @foreach ($publicites as $pub)
+                    <div class="min-w-full relative">
+                        <img src="{{ Storage::disk('public')->url($pub->image_path) }}"
+                            alt="{{ $pub->title ?? '' }}"
+                            class="w-full h-28 sm:h-36 object-cover">
+                        @if ($pub->title)
+                            <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/55 to-transparent px-4 py-2.5 rounded-b-2xl">
+                                <p class="text-white/90 text-xs font-medium tracking-wide">{{ $pub->title }}</p>
+                            </div>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        @if ($publicites->count() > 1)
+            {{-- Arrows --}}
+            <button @click="prev()"
+                class="absolute left-2 top-[calc(50%-8px)] -translate-y-1/2 z-10 w-7 h-7 bg-white/80 backdrop-blur-sm rounded-full shadow flex items-center justify-center text-gray-700 hover:bg-white transition-all duration-200 opacity-0 group-hover:opacity-100">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <button @click="next()"
+                class="absolute right-2 top-[calc(50%-8px)] -translate-y-1/2 z-10 w-7 h-7 bg-white/80 backdrop-blur-sm rounded-full shadow flex items-center justify-center text-gray-700 hover:bg-white transition-all duration-200 opacity-0 group-hover:opacity-100">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </button>
+
+            {{-- Dots --}}
+            <div class="flex gap-1.5 justify-center mt-2">
+                @foreach ($publicites as $i => $pub)
+                    <button @click="go({{ $i }})"
+                        :class="cur==={{ $i }} ? 'bg-indigo-400 w-5' : 'bg-gray-300 w-2'"
+                        class="h-1.5 rounded-full transition-all duration-300"></button>
+                @endforeach
+            </div>
+        @endif
+    </div>
+    @endif
+
     <!-- Hero banner -->
     <div
         class="mb-8 bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-800 rounded-2xl p-7 text-white relative overflow-hidden">

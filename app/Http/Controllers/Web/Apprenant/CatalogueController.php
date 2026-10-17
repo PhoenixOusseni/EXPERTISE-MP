@@ -6,6 +6,9 @@ use App\Enums\LearnerProfile;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Plan;
+use App\Models\Publicite;
+use App\Models\Subscription;
+use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -35,11 +38,14 @@ class CatalogueController extends Controller
             ->orderByDesc('published_at')
             ->paginate(12);
 
+        $publicites = Publicite::active()->get();
+
         return view('apprenant.catalogue', [
             'videos'      => $videos,
             'categories'  => $categories,
             'totalVideos' => $videos->total(),
             'profile'     => $profile,
+            'publicites'  => $publicites,
         ]);
     }
 
@@ -75,7 +81,19 @@ class CatalogueController extends Controller
     {
         $entreprisePlans    = Plan::active()->forProfile(LearnerProfile::Entreprise)->orderBy('price')->get();
         $administrationPlans = Plan::active()->forProfile(LearnerProfile::Administration)->orderBy('price')->get();
+        $publicites = Publicite::active()->get();
 
-        return view('welcome', compact('entreprisePlans', 'administrationPlans'));
+        $totalUsers         = User::apprenants()->count();
+        $totalSubscriptions = Subscription::count();
+        $fmt = fn (int $n): string => number_format($n, 0, '.', ' ');
+
+        $statFollowers = $fmt($totalUsers);
+        $statLikes     = $fmt($totalUsers + $totalSubscriptions);
+        $statCommunity = $fmt($totalUsers + $totalSubscriptions);
+
+        return view('welcome', compact(
+            'entreprisePlans', 'administrationPlans', 'publicites',
+            'statFollowers', 'statLikes', 'statCommunity'
+        ));
     }
 }

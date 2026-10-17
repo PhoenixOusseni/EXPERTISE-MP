@@ -13,7 +13,8 @@
 @section('content')
     <form method="POST" action="{{ isset($video) ? route('admin.videos.update', $video) : route('admin.videos.store') }}"
         enctype="multipart/form-data" x-data="{
-            sourceType: '{{ old('source_type', $video->source_type->value ?? 'facebook') }}',
+            sourceType: '{{ old('source_type', $video->source_type->value ?? 'upload') }}',
+            fileName: '',
             isPublished: {{ old('is_published', $video->is_published ?? false) ? 'true' : 'false' }},
             isFree: {{ old('is_free', $video->is_free ?? false) ? 'true' : 'false' }},
             fileName: '',
@@ -96,8 +97,12 @@
                     <div class="space-y-4">
                         <div>
                             <label class="form-label">Type de source</label>
-                            <div class="grid grid-cols-2 gap-2">
-                                @foreach ([['value' => 'facebook', 'label' => 'Facebook', 'icon' => 'M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z'], ['value' => 'tiktok', 'label' => 'TikTok', 'icon' => 'M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22']] as $src)
+                            <div class="grid grid-cols-3 gap-2">
+                                @foreach ([
+                                    ['value' => 'upload',   'label' => 'Fichier',  'icon' => 'M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12'],
+                                    ['value' => 'facebook', 'label' => 'Facebook', 'icon' => 'M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z'],
+                                    ['value' => 'tiktok',   'label' => 'TikTok',   'icon' => 'M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22'],
+                                ] as $src)
                                     <button type="button" @click="sourceType = '{{ $src['value'] }}'"
                                         :class="sourceType === '{{ $src['value'] }}' ?
                                             'border-indigo-600 bg-indigo-50 text-indigo-700' :
@@ -114,8 +119,35 @@
                             <input type="hidden" name="source_type" :value="sourceType">
                         </div>
 
+                        <!-- Upload fichier -->
+                        <div x-show="sourceType === 'upload'" x-cloak>
+                            @if (isset($video) && $video->file_path)
+                                <div class="mb-2 text-xs text-gray-500">
+                                    Fichier actuel : <span class="font-medium text-gray-700">{{ basename($video->file_path) }}</span>
+                                    <span class="text-gray-400">(laisser vide pour conserver)</span>
+                                </div>
+                            @endif
+                            <label class="form-label">Fichier vidéo {{ !isset($video) ? '(requis)' : '' }}</label>
+                            <div class="relative">
+                                <input type="file" name="file" id="file-input" accept="video/*" class="sr-only"
+                                    @change="fileName = $event.target.files[0]?.name || ''">
+                                <label for="file-input"
+                                    class="flex items-center gap-3 border-2 border-dashed border-gray-200 rounded-xl p-5 cursor-pointer hover:border-indigo-400 hover:bg-indigo-50/30 transition">
+                                    <svg class="w-8 h-8 text-gray-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-700" x-text="fileName || 'Cliquer pour sélectionner un fichier vidéo'"></p>
+                                        <p class="text-xs text-gray-400">MP4, MKV, AVI, MOV, WebM... max 2 Go</p>
+                                    </div>
+                                </label>
+                            </div>
+                            @error('file')<p class="form-error">{{ $message }}</p>@enderror
+                        </div>
+
                         <!-- URL externe -->
-                        <div>
+                        <div x-show="sourceType !== 'upload'" x-cloak>
                             <label class="form-label">URL de la vidéo <span class="text-red-500">*</span></label>
                             <input type="url" name="external_url"
                                 value="{{ old('external_url', $video->external_url ?? '') }}" class="form-input"
