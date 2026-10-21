@@ -338,12 +338,18 @@
                             </div>
                             <!-- Stats inside card -->
                             <div class="grid grid-cols-3 divide-x divide-white/10">
-                                @foreach ([[$statFollowers, 'Followers'], [$statLikes, "J'aime"], ['7+', 'Services']] as [$val, $lbl])
-                                    <div class="py-5 text-center">
-                                        <p class="text-xl font-bold text-white">{{ $val }}</p>
-                                        <p class="text-[11px] text-blue-300/60 mt-0.5">{{ $lbl }}</p>
-                                    </div>
-                                @endforeach
+                                <div class="py-5 text-center">
+                                    <svg class="w-5 h-5 text-white/50 mx-auto mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                    <p class="text-[11px] text-blue-300/60">Followers</p>
+                                </div>
+                                <div class="py-5 text-center">
+                                    <svg class="w-5 h-5 text-white/50 mx-auto mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                                    <p class="text-[11px] text-blue-300/60">J'aime</p>
+                                </div>
+                                <div class="py-5 text-center">
+                                    <p class="text-xl font-bold text-white">7+</p>
+                                    <p class="text-[11px] text-blue-300/60 mt-0.5">Services</p>
+                                </div>
                             </div>
                             <!-- Services list -->
                             <div class="p-5 space-y-2.5">
@@ -480,19 +486,31 @@
     <section class="bg-[#0B1E3E] py-0">
         <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
             <div class="flex flex-wrap items-stretch divide-y sm:divide-y-0 sm:divide-x divide-white/10">
-                @foreach ([[$statCommunity, 'Abonnés & Followers', 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z'], ['7', "Domaines d'intervention", 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'], [$statLikes, "J'aime & Réactions", 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'], ['100%', 'Satisfaction clients', 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z']] as [$num, $lbl, $icon])
+                @php
+                    $statsBar = [
+                        ['num' => null,   'lbl' => 'Abonnés & Followers',   'icon' => 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z'],
+                        ['num' => '7',    'lbl' => "Domaines d'intervention", 'icon' => 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'],
+                        ['num' => null,   'lbl' => "J'aime & Réactions",    'icon' => 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'],
+                        ['num' => '100%', 'lbl' => 'Satisfaction clients',  'icon' => 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'],
+                    ];
+                @endphp
+                @foreach ($statsBar as $stat)
                     <div class="flex-1 min-w-[200px] flex items-center gap-4 px-8 py-6">
                         <div
                             class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0">
                             <svg class="w-5 h-5 text-[#C9A84C]" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="{{ $icon }}" />
+                                    d="{{ $stat['icon'] }}" />
                             </svg>
                         </div>
                         <div>
-                            <p class="text-2xl font-bold text-white leading-none">{{ $num }}</p>
-                            <p class="text-[12px] text-blue-300/60 mt-1 font-medium">{{ $lbl }}</p>
+                            @if ($stat['num'] !== null)
+                                <p class="text-2xl font-bold text-white leading-none">{{ $stat['num'] }}</p>
+                            @else
+                                <svg class="w-5 h-5 text-white/40 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="{{ $stat['icon'] }}"/></svg>
+                            @endif
+                            <p class="text-[12px] text-blue-300/60 mt-1 font-medium">{{ $stat['lbl'] }}</p>
                         </div>
                     </div>
                 @endforeach
@@ -654,12 +672,18 @@
                                 "Les marchés publics, au service du développement"
                             </blockquote>
                             <div class="grid grid-cols-3 gap-3">
-                                @foreach ([[$statFollowers, 'Followers'], [$statLikes, "J'aime"], ['7', 'Services']] as [$n, $l])
-                                    <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-                                        <p class="text-xl font-bold text-white">{{ $n }}</p>
-                                        <p class="text-[11px] text-blue-300/60 mt-1">{{ $l }}</p>
-                                    </div>
-                                @endforeach
+                                <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+                                    <svg class="w-5 h-5 text-white/50 mx-auto mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                    <p class="text-[11px] text-blue-300/60">Followers</p>
+                                </div>
+                                <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+                                    <svg class="w-5 h-5 text-white/50 mx-auto mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                                    <p class="text-[11px] text-blue-300/60">J'aime</p>
+                                </div>
+                                <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+                                    <p class="text-xl font-bold text-white">7</p>
+                                    <p class="text-[11px] text-blue-300/60 mt-1">Services</p>
+                                </div>
                             </div>
                         </div>
                         <div class="px-8 py-5 border-t border-white/10 flex items-center justify-between">

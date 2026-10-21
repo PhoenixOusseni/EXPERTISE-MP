@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Stats grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-5">
         <div class="stat-card">
             <div class="stat-icon bg-indigo-100">
                 <svg class="w-6 h-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -62,6 +62,64 @@
                 <p class="text-sm text-gray-500">Revenus ce mois (XOF)</p>
                 <p class="text-xs text-gray-400 mt-0.5">Total :
                     {{ number_format($stats['abonnements']['revenus_total'], 0, '.', ' ') }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Publications & Publicités stats row -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
+        <div class="stat-card">
+            <div class="stat-icon bg-blue-100">
+                <svg class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-2xl font-bold text-gray-900">{{ number_format($stats['publications']['total']) }}</p>
+                <p class="text-sm text-gray-500">Publications</p>
+                <p class="text-xs text-emerald-600 mt-0.5 font-medium">{{ $stats['publications']['publiees'] }} publiée{{ $stats['publications']['publiees'] > 1 ? 's' : '' }}</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon bg-sky-100">
+                <svg class="w-6 h-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-2xl font-bold text-gray-900">{{ number_format($stats['publications']['vues']) }}</p>
+                <p class="text-sm text-gray-500">Vues publications</p>
+                <p class="text-xs text-gray-400 mt-0.5">Moy. {{ $stats['publications']['moy_vues'] }} / publication</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon bg-rose-100">
+                <svg class="w-6 h-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-2xl font-bold text-gray-900">{{ number_format($stats['publicites']['total']) }}</p>
+                <p class="text-sm text-gray-500">Publicités</p>
+                <p class="text-xs text-emerald-600 mt-0.5 font-medium">{{ $stats['publicites']['actives'] }} active{{ $stats['publicites']['actives'] > 1 ? 's' : '' }}</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon bg-orange-100">
+                <svg class="w-6 h-6 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-2xl font-bold text-gray-900">{{ number_format($stats['publicites']['expirees']) }}</p>
+                <p class="text-sm text-gray-500">Publicités expirées</p>
+                <p class="text-xs text-gray-400 mt-0.5">{{ $stats['publicites']['total'] - $stats['publicites']['actives'] - $stats['publicites']['expirees'] }} à venir</p>
             </div>
         </div>
     </div>
@@ -207,6 +265,54 @@
                             <span class="text-gray-500">Vidéos publiées</span>
                             <span class="font-semibold text-gray-900">{{ $stats['videos']['publiees'] }} /
                                 {{ $stats['videos']['total'] }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Publications stats -->
+                <div class="card card-body">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-semibold text-gray-800">Statistiques publications</h3>
+                        <a href="{{ route('admin.publications.index') }}" class="text-xs text-indigo-600 font-medium hover:text-indigo-800">Gérer →</a>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">Total envoyées</span>
+                            <span class="font-semibold text-gray-900">{{ $stats['publications']['publiees'] }} / {{ $stats['publications']['total'] }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">Total vues</span>
+                            <span class="font-semibold text-gray-900">{{ number_format($stats['publications']['vues']) }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">Moy. vues / publication</span>
+                            <span class="font-semibold text-gray-900">{{ $stats['publications']['moy_vues'] }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Publicités stats -->
+                <div class="card card-body">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-semibold text-gray-800">Statistiques publicités</h3>
+                        <a href="{{ route('admin.publicites.index') }}" class="text-xs text-indigo-600 font-medium hover:text-indigo-800">Gérer →</a>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">Total publicités</span>
+                            <span class="font-semibold text-gray-900">{{ $stats['publicites']['total'] }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">Actives en ce moment</span>
+                            <span class="font-semibold text-emerald-600">{{ $stats['publicites']['actives'] }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">Expirées</span>
+                            <span class="font-semibold text-gray-400">{{ $stats['publicites']['expirees'] }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">À venir</span>
+                            <span class="font-semibold text-gray-900">{{ $stats['publicites']['total'] - $stats['publicites']['actives'] - $stats['publicites']['expirees'] }}</span>
                         </div>
                     </div>
                 </div>

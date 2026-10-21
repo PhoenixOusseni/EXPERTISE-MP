@@ -36,6 +36,8 @@ class PublicationController extends Controller
                 ->with('info', 'Les publications sont réservées aux abonnés.');
         }
 
+        $publication->increment('views_count');
+
         return view('apprenant.publications.show', compact('publication'));
     }
 }

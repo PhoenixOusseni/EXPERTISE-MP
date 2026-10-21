@@ -18,6 +18,7 @@ class Publication extends Model
         'file_name',
         'is_published',
         'published_at',
+        'views_count',
     ];
 
     protected function casts(): array

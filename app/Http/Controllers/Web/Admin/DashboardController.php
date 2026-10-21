@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Enums\SubscriptionStatus;
 use App\Http\Controllers\Controller;
+use App\Models\Publication;
+use App\Models\Publicite;
 use App\Models\Subscription;
 use App\Models\User;
 use App\Models\Video;
@@ -35,6 +37,19 @@ class DashboardController extends Controller
                 'revenus_mois' => (float) Subscription::whereIn('status', [
                     SubscriptionStatus::Active, SubscriptionStatus::Expired,
                 ])->where('starts_at', '>=', now()->startOfMonth())->sum('amount'),
+            ],
+            'publications' => [
+                'total'     => Publication::count(),
+                'publiees'  => Publication::published()->count(),
+                'vues'      => (int) Publication::sum('views_count'),
+                'moy_vues'  => Publication::published()->count() > 0
+                    ? round(Publication::published()->avg('views_count'), 1)
+                    : 0,
+            ],
+            'publicites' => [
+                'total'   => Publicite::count(),
+                'actives' => Publicite::active()->count(),
+                'expirees' => Publicite::where('end_date', '<', now()->toDateString())->count(),
             ],
         ];
 
