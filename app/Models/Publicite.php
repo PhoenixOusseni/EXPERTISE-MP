@@ -8,10 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Publicite extends Model
 {
     const IMAGE_DISK = 'public';
+    const FILE_DISK  = 'public';
 
     protected $fillable = [
         'title',
         'image_path',
+        'file_path',
+        'file_name',
         'start_date',
         'end_date',
         'is_active',

@@ -46,6 +46,9 @@ class PubliciteController extends Controller
     public function destroy(Publicite $publicite): RedirectResponse
     {
         Storage::disk(Publicite::IMAGE_DISK)->delete($publicite->image_path);
+        if ($publicite->file_path) {
+            Storage::disk(Publicite::FILE_DISK)->delete($publicite->file_path);
+        }
         $publicite->delete();
 
         return back()->with('success', 'Publicité supprimée.');
@@ -58,19 +61,29 @@ class PubliciteController extends Controller
         $data = $request->validate([
             'title'      => ['nullable', 'string', 'max:255'],
             'image'      => [$creating ? 'required' : 'nullable', 'image', 'max:5120'],
+            'document'   => ['nullable', 'file', 'mimes:pdf,doc,docx,xls,xlsx', 'max:20480'],
             'start_date' => ['required', 'date'],
             'end_date'   => ['required', 'date', 'after_or_equal:start_date'],
             'is_active'  => ['sometimes', 'boolean'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
         ]);
 
-        unset($data['image']);
+        unset($data['image'], $data['document']);
 
         if ($request->hasFile('image')) {
             if ($publicite?->image_path) {
                 Storage::disk(Publicite::IMAGE_DISK)->delete($publicite->image_path);
             }
             $data['image_path'] = $request->file('image')->store('publicites', Publicite::IMAGE_DISK);
+        }
+
+        if ($request->hasFile('document')) {
+            if ($publicite?->file_path) {
+                Storage::disk(Publicite::FILE_DISK)->delete($publicite->file_path);
+            }
+            $file = $request->file('document');
+            $data['file_path'] = $file->store('publicites/documents', Publicite::FILE_DISK);
+            $data['file_name'] = $file->getClientOriginalName();
         }
 
         return $data;

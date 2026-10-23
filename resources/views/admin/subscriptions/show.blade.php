@@ -34,11 +34,53 @@
                 </div>
                 <div>
                     <p class="text-gray-500">Mode de paiement</p>
-                    <p class="font-semibold text-gray-900">{{ ucfirst(str_replace('_', ' ', $subscription->payment_method ?? '—')) }}</p>
+                    @if ($subscription->payment_method === 'orange_money')
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-white text-xs font-bold" style="background:#FF6B00;">
+                            Orange Money
+                        </span>
+                    @else
+                        <p class="font-semibold text-gray-900">{{ ucfirst(str_replace('_', ' ', $subscription->payment_method ?? '—')) }}</p>
+                    @endif
                 </div>
-                <div>
-                    <p class="text-gray-500">Référence de paiement</p>
-                    <p class="font-semibold text-gray-900">{{ $subscription->payment_reference ?? '—' }}</p>
+                <div class="col-span-2">
+                    <p class="text-gray-500 mb-2">Vérification du paiement</p>
+                    @php
+                        $ref = $subscription->payment_reference ?? '';
+                        preg_match('/TEL:([^\|]+)/', $ref, $telMatch);
+                        preg_match('/TXN:(.+)$/', $ref, $txnMatch);
+                        $tel = trim($telMatch[1] ?? '');
+                        $txn = trim($txnMatch[1] ?? '');
+                    @endphp
+                    @if ($tel && $txn)
+                        <div class="rounded-xl border border-orange-200 bg-orange-50 p-4 space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:#FF6B00;">
+                                    <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Numéro Orange Money de l'utilisateur</p>
+                                    <p class="font-bold text-gray-900 tracking-wide">{{ $tel }}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">ID de transaction (SMS Orange Money)</p>
+                                    <p class="font-bold text-gray-900 font-mono tracking-wider">{{ $txn }}</p>
+                                </div>
+                            </div>
+                            <div class="pt-2 border-t border-orange-200">
+                                <p class="text-xs text-orange-700">
+                                    <svg class="w-3.5 h-3.5 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    Pour vérifier : ouvrez l'application Orange Money ou consultez le SMS reçu sur le numéro admin et recherchez l'ID <strong>{{ $txn }}</strong> pour un montant de <strong>{{ number_format($subscription->amount, 0, '.', ' ') }} {{ $subscription->currency }}</strong>.
+                                </p>
+                            </div>
+                        </div>
+                    @else
+                        <p class="font-semibold text-gray-900 font-mono text-sm">{{ $ref ?: '—' }}</p>
+                    @endif
                 </div>
                 <div>
                     <p class="text-gray-500">Date de début</p>

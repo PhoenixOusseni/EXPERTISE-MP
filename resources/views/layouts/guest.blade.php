@@ -102,13 +102,21 @@
 
                 <!-- Stats row -->
                 <div class="grid grid-cols-3 gap-3">
-                    @foreach ([['3 247', 'Followers'], ['4 694', "J'aime"], ['7+', 'Services']] as [$n, $l])
-                        <div class="text-center py-3 px-2 rounded-xl"
-                            style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);">
-                            <p class="text-lg font-bold text-white">{{ $n }}</p>
-                            <p class="text-[10px] text-blue-300/50 mt-0.5">{{ $l }}</p>
-                        </div>
-                    @endforeach
+                    <div class="text-center py-3 px-2 rounded-xl"
+                        style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);">
+                        <svg class="w-5 h-5 text-white/40 mx-auto mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        <p class="text-[10px] text-blue-300/50">Followers</p>
+                    </div>
+                    <div class="text-center py-3 px-2 rounded-xl"
+                        style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);">
+                        <svg class="w-5 h-5 text-white/40 mx-auto mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                        <p class="text-[10px] text-blue-300/50">J'aime</p>
+                    </div>
+                    <div class="text-center py-3 px-2 rounded-xl"
+                        style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);">
+                        <p class="text-lg font-bold text-white">7+</p>
+                        <p class="text-[10px] text-blue-300/50 mt-0.5">Services</p>
+                    </div>
                 </div>
             </div>
 

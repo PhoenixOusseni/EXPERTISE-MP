@@ -444,14 +444,17 @@
                         :style="`transform:translateX(-${cur*100}%)`">
                         @foreach ($publicites as $pub)
                             <div class="min-w-full relative">
-                                <img src="{{ Storage::disk('public')->url($pub->image_path) }}"
-                                    alt="{{ $pub->title ?? '' }}"
-                                    class="w-full h-28 sm:h-36 object-cover">
-                                @if ($pub->title)
-                                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/55 to-transparent px-4 py-2.5 rounded-b-xl">
-                                        <p class="text-white/90 text-xs font-medium tracking-wide">{{ $pub->title }}</p>
-                                    </div>
-                                @endif
+                                <a href="{{ route('publicites.show', $pub) }}" class="block">
+                                    <img src="{{ Storage::disk('public')->url($pub->image_path) }}"
+                                        alt="{{ $pub->title ?? '' }}"
+                                        class="w-full h-28 sm:h-36 object-cover">
+                                    @if ($pub->title)
+                                        <div class="absolute bottom-0 inset-x-0 rounded-b-xl px-4 pt-10 pb-3"
+                                            style="background: linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.45) 60%, transparent 100%);">
+                                            <p class="text-white font-semibold text-sm sm:text-base leading-snug drop-shadow-md">{{ $pub->title }}</p>
+                                        </div>
+                                    @endif
+                                </a>
                             </div>
                         @endforeach
                     </div>

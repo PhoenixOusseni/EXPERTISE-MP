@@ -67,10 +67,9 @@ class AbonnementController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'plan_id'  => ['required', 'integer', 'exists:plans,id'],
-            'operator' => ['required', 'string', 'in:orange_money,moov_money,telecel_money,sank_money,coris_money,paypal'],
-            'phone'    => ['required', 'string', 'max:20'],
-            'otp'      => ['required', 'string', 'max:10'],
+            'plan_id' => ['required', 'integer', 'exists:plans,id'],
+            'phone'   => ['required', 'string', 'max:20'],
+            'otp'     => ['required', 'string', 'max:60'],
         ]);
 
         $user = $request->user();
@@ -92,8 +91,8 @@ class AbonnementController extends Controller
             'status'            => SubscriptionStatus::Pending,
             'amount'            => $plan->price,
             'currency'          => $plan->currency,
-            'payment_method'    => $data['operator'],
-            'payment_reference' => '+226 ' . $data['phone'] . ' | OTP: ' . $data['otp'],
+            'payment_method'    => 'orange_money',
+            'payment_reference' => 'TEL:+226 ' . $data['phone'] . '|TXN:' . strtoupper(trim($data['otp'])),
         ]);
 
         try {

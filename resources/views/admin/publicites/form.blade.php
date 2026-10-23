@@ -14,7 +14,7 @@
     <form method="POST"
         action="{{ isset($publicite) ? route('admin.publicites.update', $publicite) : route('admin.publicites.store') }}"
         enctype="multipart/form-data"
-        x-data="{ imgPreview: '{{ isset($publicite) ? Storage::disk('public')->url($publicite->image_path) : '' }}', isActive: {{ old('is_active', $publicite->is_active ?? true) ? 'true' : 'false' }} }">
+        x-data="{ imgPreview: '{{ isset($publicite) ? Storage::disk('public')->url($publicite->image_path) : '' }}', isActive: {{ old('is_active', $publicite->is_active ?? true) ? 'true' : 'false' }}, docName: null }">
         @csrf
         @if (isset($publicite)) @method('PUT') @endif
 
@@ -95,6 +95,26 @@
                     </label>
                     @error('image') <p class="form-error mt-2">{{ $message }}</p> @enderror
                     <p class="text-xs text-gray-400 mt-2">Formats : JPG, PNG, WebP — max 5 Mo<br>Ratio recommandé : 16/9 ou bannière horizontale</p>
+                </div>
+
+                {{-- Document (Word/Excel/PDF) --}}
+                <div class="card card-body">
+                    <h3 class="font-semibold text-gray-800 mb-1">Fichier joint <span class="text-gray-400 font-normal text-sm">(optionnel)</span></h3>
+                    @if (isset($publicite) && $publicite->file_path)
+                        <div class="flex items-center gap-2 mb-3 p-2.5 rounded-lg bg-gray-50 border border-gray-100">
+                            <svg class="w-5 h-5 text-indigo-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            <span class="text-sm text-gray-600 truncate">{{ $publicite->file_name }}</span>
+                        </div>
+                    @endif
+                    <input type="file" name="document" id="doc-input" accept=".pdf,.doc,.docx,.xls,.xlsx" class="sr-only"
+                        x-ref="docInput" @change="docName = $event.target.files[0]?.name ?? null">
+                    <label for="doc-input"
+                        class="flex items-center gap-2 border border-dashed border-gray-200 rounded-lg px-4 py-3 cursor-pointer hover:border-indigo-400 hover:bg-indigo-50/30 transition">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+                        <span class="text-sm text-gray-500" x-text="docName ?? '{{ isset($publicite) && $publicite->file_path ? 'Remplacer le fichier' : 'Choisir un fichier' }}'"></span>
+                    </label>
+                    @error('document') <p class="form-error mt-2">{{ $message }}</p> @enderror
+                    <p class="text-xs text-gray-400 mt-2">Formats : PDF, Word (.doc/.docx), Excel (.xls/.xlsx) — max 20 Mo</p>
                 </div>
 
                 <button type="submit" class="btn-primary w-full justify-center py-2.5">

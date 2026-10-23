@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [Apprenant\CatalogueController::class, 'welcome'])->name('welcome');
+Route::get('/publicites/{publicite}', [Apprenant\PubliciteController::class, 'show'])->name('publicites.show');
 
 /*
 |--------------------------------------------------------------------------
