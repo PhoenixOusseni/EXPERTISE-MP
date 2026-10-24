@@ -202,10 +202,33 @@
                 <!-- Thumbnail -->
                 <div class="card card-body">
                     <h3 class="font-semibold text-gray-800 mb-4">Miniature</h3>
-                    @if (isset($video) && $video->thumbnail_path)
-                        <img src="{{ Storage::disk('public')->url($video->thumbnail_path) }}"
-                            class="w-full aspect-video object-cover rounded-lg mb-3" alt="">
+
+                    {{-- Aperçu (existant ou auto-capturé) --}}
+                    <img id="thumb-preview"
+                        src="{{ isset($video) && $video->thumbnail_path ? Storage::disk('public')->url($video->thumbnail_path) : '' }}"
+                        alt=""
+                        class="w-full aspect-video object-cover rounded-lg mb-3 {{ isset($video) && $video->thumbnail_path ? '' : 'hidden' }}">
+
+                    {{-- Indicateur de capture en cours --}}
+                    <div id="thumb-capturing" class="hidden mb-3 flex items-center gap-2 text-xs text-indigo-600 bg-indigo-50 rounded-lg px-3 py-2">
+                        <svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                        Capture du premier frame en cours…
+                    </div>
+
+                    {{-- Bouton de capture depuis vidéo existante (édition uniquement) --}}
+                    @if (isset($video) && $video->isUploaded() && $video->file_path)
+                        <button type="button" id="btn-capture-existing"
+                            class="w-full mb-3 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-indigo-200 bg-indigo-50 text-indigo-700 text-sm font-medium hover:bg-indigo-100 transition">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                            </svg>
+                            Capturer depuis la vidéo
+                        </button>
+                        <video id="existing-video-el" class="hidden"
+                            src="{{ route('admin.videos.preview-stream', $video) }}"
+                            preload="none" muted playsinline crossorigin="anonymous"></video>
                     @endif
+
                     <input type="file" name="thumbnail" id="thumb-input" accept="image/*" class="sr-only"
                         @change="thumbName = $event.target.files[0]?.name || ''">
                     <label for="thumb-input"
@@ -217,6 +240,7 @@
                         <span class="text-sm text-gray-500"
                             x-text="thumbName || '{{ isset($video) && $video->thumbnail_path ? 'Changer la miniature' : 'Choisir une image' }}'"></span>
                     </label>
+                    <p class="text-xs text-gray-400 mt-1.5">Laisser vide → miniature extraite automatiquement lors du prochain upload.</p>
                 </div>
 
                 <!-- Submit -->
@@ -229,4 +253,100 @@
             </div>
         </div>
     </form>
+
+@push('scripts')
+<script>
+(function () {
+    const videoInput   = document.getElementById('file-input');
+    const thumbInput   = document.getElementById('thumb-input');
+    const thumbPreview = document.getElementById('thumb-preview');
+    const capturing    = document.getElementById('thumb-capturing');
+
+    if (!thumbInput) return;
+
+    // ── Utilitaire : capture un frame d'un élément <video> et l'injecte comme miniature ──
+    function captureFrameFromVideoEl(videoEl, objectUrl) {
+        capturing.classList.remove('hidden');
+
+        function doCapture() {
+            const canvas  = document.createElement('canvas');
+            const MAX_W   = 1280;
+            const ratio   = Math.min(1, MAX_W / (videoEl.videoWidth || MAX_W));
+            canvas.width  = Math.round((videoEl.videoWidth  || 1280) * ratio);
+            canvas.height = Math.round((videoEl.videoHeight || 720)  * ratio);
+
+            canvas.getContext('2d').drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+
+            canvas.toBlob(function (blob) {
+                if (!blob) { capturing.classList.add('hidden'); return; }
+
+                try {
+                    const dt = new DataTransfer();
+                    dt.items.add(new File([blob], 'miniature-auto.jpg', { type: 'image/jpeg' }));
+                    thumbInput.files = dt.files;
+                    thumbInput.dispatchEvent(new Event('change', { bubbles: true }));
+                } catch (_) {}
+
+                thumbPreview.src = URL.createObjectURL(blob);
+                thumbPreview.classList.remove('hidden');
+                capturing.classList.add('hidden');
+
+                if (objectUrl) URL.revokeObjectURL(objectUrl);
+            }, 'image/jpeg', 0.88);
+        }
+
+        videoEl.addEventListener('seeked', doCapture, { once: true });
+        videoEl.addEventListener('error', () => capturing.classList.add('hidden'), { once: true });
+
+        // Seek après chargement des métadonnées
+        if (videoEl.readyState >= 1) {
+            videoEl.currentTime = Math.min(2, (videoEl.duration || 10) * 0.1);
+        } else {
+            videoEl.addEventListener('loadedmetadata', () => {
+                videoEl.currentTime = Math.min(2, videoEl.duration * 0.1);
+            }, { once: true });
+            videoEl.load();
+        }
+    }
+
+    // ── Aperçu manuel ──
+    thumbInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (!file) return;
+        thumbPreview.src = URL.createObjectURL(file);
+        thumbPreview.classList.remove('hidden');
+    });
+
+    // ── Auto-capture lors d'un nouvel upload de fichier vidéo ──
+    if (videoInput) {
+        videoInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (!file || !file.type.startsWith('video/')) return;
+            if (thumbInput.files.length > 0) return; // miniature manuelle prioritaire
+
+            const objectUrl = URL.createObjectURL(file);
+            const videoEl   = document.createElement('video');
+            videoEl.muted       = true;
+            videoEl.preload     = 'metadata';
+            videoEl.playsInline = true;
+            videoEl.src         = objectUrl;
+            captureFrameFromVideoEl(videoEl, objectUrl);
+        });
+    }
+
+    // ── Capture depuis la vidéo déjà stockée (bouton édition) ──
+    const btnCapture   = document.getElementById('btn-capture-existing');
+    const existingVideo = document.getElementById('existing-video-el');
+
+    if (btnCapture && existingVideo) {
+        btnCapture.addEventListener('click', function () {
+            btnCapture.disabled = true;
+            captureFrameFromVideoEl(existingVideo, null);
+            existingVideo.addEventListener('seeked', () => { btnCapture.disabled = false; }, { once: true });
+            existingVideo.addEventListener('error',  () => { btnCapture.disabled = false; }, { once: true });
+        });
+    }
+})();
+</script>
+@endpush
 @endsection

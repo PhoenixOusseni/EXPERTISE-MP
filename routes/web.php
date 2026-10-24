@@ -94,6 +94,7 @@ Route::prefix('admin')
         Route::delete('videos/{video}', [Admin\VideoController::class, 'destroy'])->name('videos.destroy');
         Route::post('videos/{video}/publier', [Admin\VideoController::class, 'publish'])->name('videos.publish');
         Route::post('videos/{video}/depublier', [Admin\VideoController::class, 'unpublish'])->name('videos.unpublish');
+        Route::get('videos/{video}/preview-stream', [Admin\VideoController::class, 'previewStream'])->name('videos.preview-stream');
 
         // Catégories
         Route::get('categories', [Admin\CategoryController::class, 'index'])->name('categories.index');

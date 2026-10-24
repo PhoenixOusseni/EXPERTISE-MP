@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class VideoController extends Controller
 {
@@ -51,6 +52,20 @@ class VideoController extends Controller
         $categories = Category::orderBy('name')->get();
 
         return view('admin.videos.form', compact('video', 'categories'));
+    }
+
+    public function previewStream(Video $video): BinaryFileResponse
+    {
+        abort_unless($video->isUploaded() && $video->file_path, 404);
+        $disk = Storage::disk(Video::VIDEO_DISK);
+        abort_unless($disk->exists($video->file_path), 404);
+
+        return response()->file($disk->path($video->file_path), [
+            'Content-Type'        => $disk->mimeType($video->file_path) ?: 'video/mp4',
+            'Content-Disposition' => 'inline; filename="preview"',
+            'Cache-Control'       => 'private, no-store',
+            'X-Frame-Options'     => 'SAMEORIGIN',
+        ]);
     }
 
     public function update(Request $request, Video $video): RedirectResponse
