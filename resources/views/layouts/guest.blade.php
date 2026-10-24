@@ -135,6 +135,8 @@
                 <span class="flex items-center gap-1.5 text-white/70">
                     <svg class="w-3.5 h-3.5 text-[#C9A84C] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                     <a href="mailto:kiemde2006@gmail.com" class="text-white/70 hover:text-[#C9A84C] transition">
+                        kiemde2006@gmail.com
+                    </a>
                 </span>
             </div>
         </div>
